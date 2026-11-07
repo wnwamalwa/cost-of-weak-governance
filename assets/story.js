@@ -4,6 +4,7 @@
   if (!$("story")) return;
   var fmt = function (v) { return (v < 0 ? "−" : "") + Math.abs(v).toFixed(2); };
   var last = null, guessed = {};
+  var wide = function () { return window.matchMedia("(min-width: 1200px)").matches; };
 
   function ordinal(n) { var s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
@@ -17,11 +18,11 @@
     var c = d.ind.citizen || { line: "", items: [] };
     $("stLine").textContent = c.line;
     $("stItems").innerHTML = c.items.map(function (it, i) {
-      return '<details' + (i === 0 ? " open" : "") + '><summary><span class="ic">' + it.icon + "</span>" + it.title + "</summary><p>" + it.text + "</p></details>";
+      return '<details' + (i === 0 || !wide() ? " open" : "") + '><summary><span class="ic">' + it.icon + "</span>" + it.title + "</summary><p>" + it.text + "</p></details>";
     }).join("");
     // keep one open at a time
     [].slice.call(document.querySelectorAll("#stItems details")).forEach(function (el) {
-      el.addEventListener("toggle", function () { if (el.open) [].slice.call(document.querySelectorAll("#stItems details")).forEach(function (o) { if (o !== el) o.open = false; }); });
+      el.addEventListener("toggle", function () { if (el.open && wide()) [].slice.call(document.querySelectorAll("#stItems details")).forEach(function (o) { if (o !== el) o.open = false; }); });
     });
     var key = d.ind.key + d.year;
     $("stQ").innerHTML = "Out of " + d.n + " African countries, where do you think Kenya ranks on <b>" + d.ind.name + "</b> in " + d.year + "? (1 = best)";
