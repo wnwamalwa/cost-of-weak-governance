@@ -23,7 +23,7 @@
 <section class="pane" id="home" data-tab="Home">
   <div class="homehead">
     <h2>How Kenya compares with the rest of Africa</h2>
-    <p class="h2sub">World Bank Worldwide Governance Indicators: about −2.5 (worst) to +2.5 (best). Hover or tap a country.</p>
+    <p class="h2sub">World Bank governance scores, about −2.5 (worst) to +2.5 (best). Click a country to compare it with Kenya.</p>
   </div>
 
   <div class="card afwrap">
@@ -46,8 +46,12 @@
         <div><p id="afRank"></p><div class="sub" id="afChange"></div></div>
       </div>
       <div class="pt">
-        <div><div class="lab">Kenya and its neighbours</div><div id="afPeers"></div></div>
-        <div><div class="lab">Kenya <span class="kkey"></span> vs Africa median <span class="mkey"></span></div><div id="afTrend" class="aftrend"></div></div>
+        <div>
+          <div class="lab">Compare Kenya with</div>
+          <div id="afPeers"></div>
+          <div class="addrow"><select id="afAdd" aria-label="Add a country to the comparison"></select><button type="button" id="afReset" class="linkbtn">Reset</button></div>
+        </div>
+        <div><div class="lab">Over time <span class="lab2">· hover for values</span></div><div id="afTrend" class="aftrend"></div></div>
       </div>
     </div>
   </div>

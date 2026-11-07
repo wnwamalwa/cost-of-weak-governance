@@ -12,7 +12,12 @@
     { max: 0.5, color: "#8cc084", label: "0 to 0.5" },
     { max: 9, color: "#2e7d4f", label: "Above 0.5" },
   ];
-  var PEERS = ["RWA", "TZA", "ETH", "UGA"];
+  var DEFAULT_PEERS = ["RWA", "TZA", "ETH", "UGA"], MAXP = 6;
+  var LINE = ["#2563eb", "#7c3aed", "#0d9488", "#a16207", "#db2777", "#475569"];
+  var peers = DEFAULT_PEERS.slice();
+  try { var sp = JSON.parse(localStorage.getItem("cwg_peers") || "null"); if (Array.isArray(sp)) peers = sp.filter(function (c) { return c !== "KEN"; }).slice(0, MAXP); } catch (e) {}
+  function savePeers() { try { localStorage.setItem("cwg_peers", JSON.stringify(peers)); } catch (e) {} }
+  var peerColor = function (id) { return LINE[peers.indexOf(id) % LINE.length]; };
   var state = { ind: "CC", year: A.years[A.years.length - 1] };
   var idx = {}; A.countries.forEach(function (c, i) { idx[c] = i; });
   var nameOf = {}; A.shapes.forEach(function (s) { nameOf[s.id] = s.name; });
@@ -54,25 +59,68 @@
   $("aflegend").innerHTML = BINS.map(function (b) { return '<span><i style="background:' + b.color + '"></i>' + b.label + "</span>"; }).join("") +
     '<span><i style="background:var(--chip)"></i>No data</span>';
 
-  // ---- trend chart: Kenya against the Africa median, 2015 to latest
+  // ---- trend chart: Kenya, the Africa median and the chosen peers, 2015 to latest (hover for values, click to set the year)
+  var T = { W: 230, H: 140, pl: 30, pr: 14, pt: 8, pb: 18 };
   function trend() {
-    var W = 230, H = 140, pl = 30, pr = 14, pt = 8, pb = 18;
-    var ks = A.years.map(function (y) { return val("KEN", state.ind, y); });
-    var ms = A.years.map(function (y) { return median(series(state.ind, y)); });
-    var all = ks.concat(ms), lo = Math.floor(Math.min.apply(null, all) * 4) / 4 - 0.1, hi = Math.ceil(Math.max.apply(null, all) * 4) / 4 + 0.1;
+    var W = T.W, H = T.H, pl = T.pl, pr = T.pr, pt = T.pt, pb = T.pb;
+    var lines = [{ id: "MED", name: "Africa median", cls: "med", v: A.years.map(function (y) { return median(series(state.ind, y)); }) }]
+      .concat(peers.map(function (p) { return { id: p, name: nameOf[p], color: peerColor(p), v: A.years.map(function (y) { return val(p, state.ind, y); }) }; }))
+      .concat([{ id: "KEN", name: "Kenya", cls: "ken", v: A.years.map(function (y) { return val("KEN", state.ind, y); }) }]);
+    var all = [].concat.apply([], lines.map(function (l) { return l.v; })).filter(function (v) { return v != null && !isNaN(v); });
+    var lo = Math.floor(Math.min.apply(null, all) * 4) / 4 - 0.1, hi = Math.ceil(Math.max.apply(null, all) * 4) / 4 + 0.1;
     var x = function (i) { return pl + i * (W - pl - pr) / (A.years.length - 1); };
     var y = function (v) { return pt + (hi - v) * (H - pt - pb) / (hi - lo); };
-    var line = function (a) { return a.map(function (v, i) { return (i ? "L" : "M") + x(i).toFixed(1) + "," + y(v).toFixed(1); }).join(""); };
-    var ticks = [], step = (hi - lo) > 1 ? 0.5 : 0.25;
-    for (var t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(t);
+    var path = function (a) { return a.map(function (v, i) { return (i ? "L" : "M") + x(i).toFixed(1) + "," + y(v).toFixed(1); }).join(""); };
+    var ticks = [], step = (hi - lo) > 2 ? 1 : (hi - lo) > 1 ? 0.5 : 0.25;
+    for (var t = Math.ceil(lo / step) * step; t <= hi + 1e-9; t += step) ticks.push(t);
     var si = A.years.indexOf(state.year);
-    var s = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Kenya and Africa median over time">';
-    ticks.forEach(function (t) { s += '<line class="g" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y(t) + '" y2="' + y(t) + '"/><text class="ax" x="' + (pl - 6) + '" y="' + (y(t) + 4) + '" text-anchor="end">' + fmt(t) + "</text>"; });
-    [0, Math.floor((A.years.length - 1) / 2), A.years.length - 1].forEach(function (i) { s += '<text class="ax" x="' + x(i) + '" y="' + (H - 6) + '" text-anchor="middle">' + A.years[i] + "</text>"; });
+    var s = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Scores over time">';
+    ticks.forEach(function (t) { s += '<line class="g" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y(t) + '" y2="' + y(t) + '"/><text class="ax" x="' + (pl - 5) + '" y="' + (y(t) + 3.5) + '" text-anchor="end">' + fmt(t) + "</text>"; });
+    [0, Math.floor((A.years.length - 1) / 2), A.years.length - 1].forEach(function (i) { s += '<text class="ax" x="' + x(i) + '" y="' + (H - 5) + '" text-anchor="middle">' + A.years[i] + "</text>"; });
     s += '<line class="cur" x1="' + x(si) + '" x2="' + x(si) + '" y1="' + pt + '" y2="' + (H - pb) + '"/>';
-    s += '<path class="med" d="' + line(ms) + '"/><path class="ken" d="' + line(ks) + '"/>';
-    s += '<circle class="kdot" cx="' + x(si) + '" cy="' + y(ks[si]) + '" r="4"/></svg>';
-    $("afTrend").innerHTML = s;
+    lines.forEach(function (l) {
+      s += '<path data-id="' + l.id + '" class="ln ' + (l.cls || "peer") + '" d="' + path(l.v) + '"' + (l.color ? ' style="stroke:' + l.color + '"' : "") + "/>";
+    });
+    s += '<circle class="kdot" cx="' + x(si) + '" cy="' + y(lines[lines.length - 1].v[si]) + '" r="3.5"/>';
+    s += '<line class="hov" id="trHov" x1="0" x2="0" y1="' + pt + '" y2="' + (H - pb) + '" visibility="hidden"/>';
+    s += '<rect class="hit" x="' + pl + '" y="0" width="' + (W - pl - pr) + '" height="' + H + '"/></svg><div class="trtip" id="trTip" hidden></div>';
+    var box2 = $("afTrend"); box2.innerHTML = s;
+    var svgEl = box2.querySelector("svg"), hit = box2.querySelector(".hit"), hov = $("trHov"), tt = $("trTip");
+    function idxAt(e) {
+      var r = svgEl.getBoundingClientRect(), px = (e.clientX - r.left) * W / r.width;
+      return Math.max(0, Math.min(A.years.length - 1, Math.round((px - pl) / ((W - pl - pr) / (A.years.length - 1)))));
+    }
+    hit.addEventListener("mousemove", function (e) {
+      var i = idxAt(e), r = svgEl.getBoundingClientRect();
+      hov.setAttribute("x1", x(i)); hov.setAttribute("x2", x(i)); hov.setAttribute("visibility", "visible");
+      var rows = lines.slice().sort(function (a, b) { return b.v[i] - a.v[i]; });
+      tt.innerHTML = "<b>" + A.years[i] + "</b>" + rows.map(function (l) {
+        var c = l.id === "KEN" ? "var(--red)" : l.id === "MED" ? "var(--muted)" : l.color;
+        return '<div><i style="background:' + c + '"></i>' + l.name + "<span>" + fmt(l.v[i]) + "</span></div>";
+      }).join("") + '<div class="hint">Click to show this year on the map</div>';
+      tt.hidden = false;
+      var bx = box2.getBoundingClientRect(), left = x(i) * r.width / W + (r.left - bx.left);
+      tt.style.left = (left > bx.width / 2 ? left - tt.offsetWidth - 10 : left + 10) + "px";
+    });
+    hit.addEventListener("mouseleave", function () { hov.setAttribute("visibility", "hidden"); tt.hidden = true; });
+    hit.addEventListener("click", function (e) { state.year = A.years[idxAt(e)]; yr.value = state.year; draw(); });
+  }
+
+  // ---- peers: add from the list, remove with ×, or click a country on the map
+  function peerList() {
+    var sel = $("afAdd");
+    var opts = A.countries.filter(function (c) { return c !== "KEN" && peers.indexOf(c) < 0; })
+      .sort(function (a, b) { return nameOf[a].localeCompare(nameOf[b]); });
+    sel.innerHTML = '<option value="">+ Add a country</option>' + opts.map(function (c) { return '<option value="' + c + '">' + nameOf[c] + "</option>"; }).join("");
+    sel.disabled = peers.length >= MAXP;
+    if (sel.disabled) sel.options[0].textContent = "Up to " + MAXP + " countries";
+  }
+  function togglePeer(id) {
+    if (id === "SOM_L") id = "SOM";
+    if (id === "KEN" || idx[id] == null) return;
+    var i = peers.indexOf(id);
+    if (i >= 0) peers.splice(i, 1); else if (peers.length < MAXP) peers.push(id); else return;
+    savePeers(); draw();
   }
 
   function draw() {
@@ -82,7 +130,12 @@
     $("afWhat").textContent = d.what;
     $("afWhy").textContent = d.why;
     $("afTitle").textContent = d.name + ", " + state.year;
-    shapes.forEach(function (p) { p.style.fill = colorOf(val(p.dataset.id)); });
+    shapes.forEach(function (p) {
+      var id = p.dataset.id === "SOM_L" ? "SOM" : p.dataset.id;
+      p.style.fill = colorOf(val(p.dataset.id));
+      p.classList.toggle("peer", peers.indexOf(id) >= 0);
+      if (peers.indexOf(id) >= 0) p.style.setProperty("--pc", peerColor(id)); else p.style.removeProperty("--pc");
+    });
 
     var s = series(state.ind, state.year), n = s.length, kv = val("KEN"), kr = rankOf("KEN", state.ind, state.year), med = median(s);
     $("afScore").textContent = fmt(kv);
@@ -94,27 +147,42 @@
     if (state.year !== first) { var fv = val("KEN", state.ind, first); bits.push((kv > fv ? "better" : "worse") + " than in " + first + " (" + fmt(fv) + ", rank " + rankOf("KEN", state.ind, first) + ")"); }
     $("afChange").textContent = bits.length ? bits.join("; ") + "." : "";
 
-    var rows = [{ id: "KEN", v: kv }].concat(PEERS.map(function (p) { return { id: p, v: val(p) }; })).concat([{ id: "MED", v: med }]);
+    var rows = [{ id: "KEN", v: kv }].concat(peers.map(function (p) { return { id: p, v: val(p) }; })).concat([{ id: "MED", v: med }]);
     rows.sort(function (a, b) { return b.v - a.v; });
     $("afPeers").innerHTML = rows.map(function (r) {
       var label = r.id === "MED" ? "Africa median" : nameOf[r.id], pos = (100 * (r.v + 2.5) / 5).toFixed(1);
-      return '<div class="pr' + (r.id === "KEN" ? " k" : "") + '"><span>' + label + '</span><div class="scale"><i style="left:' + pos + '%;background:' + (r.id === "MED" ? "var(--muted)" : colorOf(r.v)) + '"></i></div><b>' + fmt(r.v) + "</b></div>";
+      var sw = r.id === "KEN" ? "var(--red)" : r.id === "MED" ? "var(--muted)" : peerColor(r.id);
+      var rm = (r.id === "KEN" || r.id === "MED") ? '<em></em>' : '<button type="button" class="rm" data-id="' + r.id + '" aria-label="Remove ' + label + '">×</button>';
+      return '<div class="pr' + (r.id === "KEN" ? " k" : "") + '" data-id="' + r.id + '"><span><i class="sw' + (r.id === "MED" ? " dash" : "") + '" style="background:' + sw + ';border-color:' + sw + '"></i>' + label + '</span><div class="scale"><i style="left:' + pos + '%;background:' + (r.id === "MED" ? "var(--muted)" : colorOf(r.v)) + '"></i></div><b>' + fmt(r.v) + "</b>" + rm + "</div>";
     }).join("");
+    peerList();
     trend();
   }
 
-  // ---- tooltip
+  // highlight a country's line when its row is hovered
+  $("afPeers").addEventListener("mouseover", function (e) {
+    var row = e.target.closest(".pr"); if (!row) return;
+    $("afTrend").classList.add("focus");
+    [].slice.call(document.querySelectorAll("#afTrend .ln")).forEach(function (l) { l.classList.toggle("on", l.dataset.id === row.dataset.id); });
+  });
+  $("afPeers").addEventListener("mouseleave", function () { $("afTrend").classList.remove("focus"); });
+  $("afPeers").addEventListener("click", function (e) { var b = e.target.closest(".rm"); if (b) togglePeer(b.dataset.id); });
+  $("afAdd").addEventListener("change", function (e) { if (e.target.value) togglePeer(e.target.value); });
+  $("afReset").addEventListener("click", function () { peers = DEFAULT_PEERS.slice(); savePeers(); draw(); });
+
+  // ---- map tooltip; click a country to add or remove it from the comparison
   var tip = $("maptip");
   function showTip(e, id) {
     var v = val(id), sid = id === "SOM_L" ? "SOM" : id;
-    tip.innerHTML = "<b>" + nameOf[id] + "</b><br>" + (v == null || isNaN(v) ? "No data" : "Score " + fmt(v) + " · rank " + rankOf(sid, state.ind, state.year) + " of " + series(state.ind, state.year).length);
+    var act = sid === "KEN" ? "" : '<div class="hint">' + (peers.indexOf(sid) >= 0 ? "Click to remove from comparison" : peers.length >= MAXP ? "Comparison is full (" + MAXP + ")" : "Click to add to comparison") + "</div>";
+    tip.innerHTML = "<b>" + nameOf[id] + "</b><br>" + (v == null || isNaN(v) ? "No data" : "Score " + fmt(v) + " · rank " + rankOf(sid, state.ind, state.year) + " of " + series(state.ind, state.year).length) + act;
     tip.hidden = false;
     var rb = box.getBoundingClientRect(), x = e.clientX - rb.left, y = e.clientY - rb.top;
-    tip.style.left = Math.max(0, Math.min(x + 12, rb.width - 200)) + "px"; tip.style.top = Math.max(y - 46, 0) + "px";
+    tip.style.left = Math.max(0, Math.min(x + 12, rb.width - 210)) + "px"; tip.style.top = Math.max(y - 56, 0) + "px";
   }
   shapes.forEach(function (p) {
     p.addEventListener("mousemove", function (e) { showTip(e, p.dataset.id); });
-    p.addEventListener("click", function (e) { showTip(e, p.dataset.id); });
+    p.addEventListener("click", function (e) { togglePeer(p.dataset.id); showTip(e, p.dataset.id); });
     p.addEventListener("mouseleave", function () { tip.hidden = true; });
   });
 
