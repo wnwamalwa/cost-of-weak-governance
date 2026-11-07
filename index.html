@@ -58,9 +58,18 @@
   <div class="card afwrap">
     <div class="afleft">
       <div class="afhead"><h3 id="afTitle"></h3>
+        <div class="vsel" id="afView" role="group" aria-label="Show as">
+          <button type="button" data-v="map" aria-pressed="true">Map</button><button type="button" data-v="bars" aria-pressed="false">Bars</button><button type="button" data-v="pair" aria-pressed="false">Side by side</button>
+        </div>
         <label class="yr">Year <b id="afYearV"></b><input type="range" id="afYearRange" step="1" aria-label="Year"></label>
       </div>
+      <div class="pairctl" id="afPairCtl" hidden>
+        <span>Compare with</span>
+        <select id="afInd2" aria-label="Indicator for the right-hand chart"></select>
+        <select id="afYear2" aria-label="Year for the right-hand chart"></select>
+      </div>
       <div class="afmap" id="afmap"></div>
+      <div class="afbars" id="afbars" hidden></div>
       <div class="aflegend" id="aflegend"></div>
     </div>
     <div class="afside">
