@@ -56,7 +56,7 @@
 
   // ---- trend chart: Kenya against the Africa median, 2015 to latest
   function trend() {
-    var W = 360, H = 130, pl = 34, pr = 18, pt = 10, pb = 22;
+    var W = 230, H = 140, pl = 30, pr = 14, pt = 8, pb = 18;
     var ks = A.years.map(function (y) { return val("KEN", state.ind, y); });
     var ms = A.years.map(function (y) { return median(series(state.ind, y)); });
     var all = ks.concat(ms), lo = Math.floor(Math.min.apply(null, all) * 4) / 4 - 0.1, hi = Math.ceil(Math.max.apply(null, all) * 4) / 4 + 0.1;
