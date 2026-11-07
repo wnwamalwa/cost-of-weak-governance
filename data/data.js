@@ -88,10 +88,11 @@ window.CWG_DATA = {
       fig: "Up to 20%", figLabel: "of an informal worker’s daily earnings lost to frontline bribes",
       bullets: [
         "Informal workers are <b>83.8%</b> of Kenya’s workforce",
-        "Demands come from traffic police and county inspectors",
+        "<b>KSh 88 bn</b> a year paid to traffic police (World Bank 2025b)",
+        "Riders report paying <b>KSh 50–100 a day</b> in bribes",
         "Poorer workers are more likely to pay",
       ],
-      source: "KEU 34, pp. vi, 37–39",
+      source: "KEU 34, pp. vi, 37–39 and note 91",
     },
     {
       key: "↗", tag: "The upside", title: "What reform could unlock", positive: true,
