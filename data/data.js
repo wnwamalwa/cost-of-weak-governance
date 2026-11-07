@@ -24,6 +24,8 @@ window.CWG_DATA = {
     counterUrl: "https://kenyadebtcounter.vercel.app",
     fallbackDebtKsh: 13.72e12,
     fallbackDebtPerSec: 36321,
+    fallbackDebtPctGDP: 72.5,      // shown until the live debt and GDP arrive
+    fallbackDebtPerPerson: 251000,
   },
 
   // ---- fiscal snapshot (KEU 34) -------------------------------------
@@ -193,10 +195,10 @@ window.CWG_DATA = {
       ],
       more: [
         { h: "The comparison", p: "Kenya’s line cost more per kilometre than Tanzania’s Dar es Salaam–Dodoma line (US$5.7 m) and the Djibouti–Addis Ababa line (US$5.3 m), even though both of those are electrified and Kenya’s runs on diesel." },
-        { h: "What went wrong", p: "The World Bank points to direct contracting instead of competitive tendering, land speculation and outright fraud around land compensation, and attributes at least 30% of the extra cost to these governance problems." },
+        { h: "What went wrong", p: "The World Bank points to direct contracting instead of competitive tendering, land speculation, and outright fraud around land titling, valuation and compensation payments. It attributes at least 30% of the extra cost to these governance problems rather than to terrain or technical differences." },
         { h: "Why it matters to you", p: "The railway was built with borrowed money. Every extra dollar spent is a dollar Kenyans repay, with interest." },
       ],
-      caveat: "Projects differ in terrain and design, so not all of the cost gap is due to governance; that is why the World Bank attributes only part of it (at least 30%).",
+      caveat: "Not all of the US$900 m gap is corruption. The World Bank attributes at least 30% of it (about US$270 m) to governance problems; the rest may reflect differences between the projects.",
       source: "World Bank, Kenya Economic Update No. 34 (Nov 2026), p. 26.",
     },
     {

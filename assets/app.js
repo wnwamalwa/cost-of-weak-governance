@@ -18,7 +18,6 @@
     $("annual").innerHTML = "≈ KSh " + fmt(Math.round(annual / 1e10) * 10) + " bn <small>/ year</small>";
     $("gdpNote").textContent = "KSh " + (gdp / 1e12).toFixed(1) + " trillion";
     $("perPerson").textContent = "KSh " + fmt(Math.round(annual / pop / 100) * 100);
-    $("perSec").textContent = fmt(Math.round(perSec / 100) * 100);
     var months = annual / (debt.gps * 86400) / 30.4;
     $("months").textContent = "~" + Math.round(months) + " months";
     if (typeof drawRecovery === "function") drawRecovery();
@@ -26,6 +25,17 @@
   $("savingsShare").textContent = H.savingsShareOfDeficit + "%";
   $("updated").textContent = "Figures updated " + D.updated;
   $("counterLink").href = L.counterUrl;
+  $("debt").href = L.counterUrl;
+  $("debtPc").href = L.counterUrl;
+  $("debtGdp").href = L.counterUrl.replace(/\/$/, "") + "/kenya-debt";
+  var liveDebt = false, liveGdp = false, livePc = null;
+  function drawDebt() {
+    $("debt").textContent = "KSh " + (debt.total / 1e12).toFixed(1) + " trillion";
+    // until both live figures arrive, show the counter's last published ratios
+    $("debtGdp").querySelector("b").textContent = (liveDebt && liveGdp ? (100 * debt.total / gdp).toFixed(1) : L.fallbackDebtPctGDP.toFixed(1)) + "%";
+    var pc = livePc || (liveDebt ? debt.total / pop : L.fallbackDebtPerPerson);
+    $("debtPc").querySelector("b").textContent = "KSh " + fmt(Math.round(pc / 1000) * 1000);
+  }
   drawHeadline();
 
   fetch(L.debtApi, { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
@@ -33,21 +43,19 @@
     if (d && d.totalDebt) {
       debt = { total: d.totalDebt, gps: d.increasePerSecond, asOf: new Date(d.asOf).getTime() };
       if (d.population > 1e7) pop = d.population;
+      if (d.debtPerCapita > 0) livePc = d.debtPerCapita;
+      liveDebt = true;
       $("liveTag").textContent = "live";
-      drawHeadline();
+      drawHeadline(); drawDebt();
     }
   }).catch(function () { $("liveTag").textContent = "offline estimate"; });
 
   fetch(L.indicatorsApi, { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
     var g = j && j.data && Number(j.data.gdp);
-    if (g > 5e12 && g < 1e14) { gdp = g; drawHeadline(); }   // only accept a plausible KSh figure
+    if (g > 5e12 && g < 1e14) { gdp = g; liveGdp = true; drawHeadline(); drawDebt(); }   // only accept a plausible KSh figure
   }).catch(function () {});
 
-  setInterval(function () {
-    var now = Date.now();
-    $("tick").textContent = "KSh " + fmt(perSec * (now - t0) / 1000);
-    $("debt").textContent = "KSh " + fmt(debt.total + debt.gps * (now - debt.asOf) / 1000);
-  }, 250);
+  drawDebt();
 
   // ---------------------------------------------------------- fiscal snapshot
   $("fiscal").innerHTML = D.fiscal.map(function (f) {
