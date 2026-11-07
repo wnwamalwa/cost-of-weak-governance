@@ -128,7 +128,7 @@
   // ---------------------------------------------------------- theme toggle
   $("theme").addEventListener("click", function () {
     var r = document.documentElement, cur = r.getAttribute("data-theme");
-    var dark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    var dark = cur === "dark";
     r.setAttribute("data-theme", dark ? "light" : "dark");
   });
 })();

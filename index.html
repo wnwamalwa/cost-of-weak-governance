@@ -18,8 +18,10 @@
     <button class="tbtn" id="theme" type="button" aria-label="Switch light or dark mode">◐ Theme</button>
   </div>
 </div></header>
+<nav class="tabs" aria-label="Dashboard sections"><div class="wrap" id="tabbar" role="tablist"></div></nav>
 
 <main class="wrap">
+<section class="pane" id="overview" data-tab="Overview">
   <section class="hero">
     <div class="kicker">IEA Kenya · Public finance accountability</div>
     <h1>What does weak governance cost Kenya?</h1>
@@ -53,19 +55,27 @@
   <p class="h2sub">Where Kenya’s public finances stand, according to the World Bank.</p>
   <div class="fisc" id="fiscal"></div>
 
+</section>
+<section class="pane" id="losses" data-tab="Where losses come from">
   <h2>Where the losses come from</h2>
   <p class="h2sub">Five channels identified in the World Bank’s special focus on governance. Figures are the Bank’s own; IEA adds only the conversions shown.</p>
   <div class="channels" id="channels"></div>
 
+</section>
+<section class="pane" id="watchdogs-tab" data-tab="Watchdogs">
   <h2>What Kenya’s watchdogs report</h2>
   <p class="h2sub">The Auditor-General, the Ethics and Anti-Corruption Commission, the Judiciary and Transparency International, in their latest reports.</p>
   <div class="channels two" id="watchdogs"></div>
   <div class="card" style="margin-top:16px;background:var(--red-soft);border-color:transparent"><div id="recovery" style="font-size:16px"></div></div>
 
+</section>
+<section class="pane" id="benchmark" data-tab="Benchmarks">
   <h2>Kenya against the benchmark</h2>
   <p class="h2sub">Kenya today compared with its own budget, its own past, or its peers. Red marks where Kenya falls short.</p>
   <div class="cmp" id="benchmarks"></div>
 
+</section>
+<section class="pane" id="reform" data-tab="Reform scenarios">
   <h2>What if Kenya reformed?</h2>
   <p class="h2sub">The World Bank modelled three levels of improvement in control of corruption. Choose one to see the gains by 2035, compared with no reform.</p>
   <div class="card scen">
@@ -80,6 +90,8 @@
     </div>
   </div>
 
+</section>
+<section class="pane" id="bribe" data-tab="Your bribe tax">
   <h2>Your bribe tax</h2>
   <p class="h2sub">For traders, boda boda riders and other informal workers: how much do frontline bribes take from you in a year?</p>
   <div class="card calc">
@@ -101,9 +113,12 @@
     </div>
   </div>
 
+</section>
+<section class="pane" id="levers-tab" data-tab="Levers to track">
   <h2>Five levers to track</h2>
   <p class="h2sub">The measures IEA Kenya proposes to watch. Each is a policy lever with indicators that can be checked every year.</p>
   <div class="levers" id="levers"></div>
+</section>
 </main>
 
 <footer><div class="wrap">
@@ -121,5 +136,6 @@
 
 <script src="data/data.js"></script>
 <script src="assets/app.js"></script>
+<script src="assets/tabs.js"></script>
 </body>
 </html>
