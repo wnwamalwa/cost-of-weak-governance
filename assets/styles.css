@@ -318,11 +318,18 @@ body.tabbed #home > .homehead{margin-top:18px}
 @media (min-width:1200px){
   #cost{position:relative;left:50%;transform:translateX(-50%);width:min(1500px, calc(100vw - 32px))}
   body.tabbed #cost:not(.active){display:none}
-  #cost{display:grid;grid-template-columns:minmax(0,1fr) 260px;column-gap:28px;align-items:start}
+  #cost{display:grid;grid-template-columns:minmax(0,1fr) 320px;column-gap:28px;align-items:start}
   #cost .costmain{grid-column:1}
-  #cost .fiscside{grid-column:2;position:sticky;top:76px;margin-top:40px}
+  #cost .fiscside{grid-column:2;position:sticky;top:76px;margin-top:40px;max-height:calc(100vh - 90px);overflow:auto;padding:2px 4px 8px 2px}
+  #cost .fiscside h2{margin-top:20px!important}
   #cost .fiscside h2{margin:0 0 4px;font-size:20px}
   #cost .fiscside .h2sub{font-size:13.5px;margin-bottom:12px}
   #cost .fiscside .fisc{grid-template-columns:1fr;gap:10px}
   #cost .fiscside .mini{background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow)}
 }
+
+.headline.one{grid-template-columns:1fr}
+.livecard .ticker{font-size:20px;white-space:nowrap;letter-spacing:-.01em}
+.livecard{padding:16px 18px}
+.livecard .sub{font-size:13px}
+@media (max-width:1199px){ #cost .livecard{margin-top:16px} }
