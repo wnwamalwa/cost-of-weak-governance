@@ -213,6 +213,7 @@
     trend();
     var showMap = state.view === "map";
     $("afmap").hidden = !showMap; $("afbars").hidden = showMap; $("afPairCtl").hidden = state.view !== "pair";
+    $("aflegend").classList.toggle("vert", showMap);
     if (!showMap) {
       var mh = box.querySelector("svg") ? box.dataset.h : null;
       if (mh) $("afbars").style.height = (state.view === "pair" ? mh - 44 : mh) + "px";
