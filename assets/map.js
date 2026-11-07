@@ -35,7 +35,7 @@
   yr.min = A.years[0]; yr.max = A.years[A.years.length - 1]; yr.value = state.year;
 
   // ---- map
-  var svg = '<svg viewBox="0 ' + (A.y0 || 0) + " " + A.w + " " + A.h + '" role="img" aria-label="Map of Africa coloured by the selected governance score">';
+  var svg = '<svg viewBox="0 0 ' + A.w + " " + A.h + '" role="img" aria-label="Map of Africa coloured by the selected governance score">';
   A.shapes.forEach(function (s) { svg += '<path class="c" data-id="' + s.id + '" d="' + s.d + '"/>'; });
   A.shapes.forEach(function (s) { if (s.dot) svg += '<circle class="c dot" data-id="' + s.id + '" cx="' + s.dot[0] + '" cy="' + s.dot[1] + '" r="5"/>'; });
   var ke = A.shapes.filter(function (s) { return s.id === "KEN"; })[0];

@@ -21,41 +21,40 @@
 
 <main class="wrap">
 <section class="pane" id="home" data-tab="Home">
-  <h2>How Kenya compares with the rest of Africa</h2>
-  <p class="h2sub" style="max-width:860px">The World Bank’s Worldwide Governance Indicators score every country from about −2.5 (worst) to +2.5 (best). Choose an indicator and a year; hover or tap a country to see its score.</p>
-
-  <div class="seg indsel" id="afInd" role="group" aria-label="Choose an indicator"></div>
-
-  <div class="card afexplain">
-    <div><div class="lab">What it measures</div><p id="afWhat"></p></div>
-    <div><div class="lab">Why it matters for Kenya</div><p id="afWhy"></p></div>
+  <div class="homehead">
+    <h2>How Kenya compares with the rest of Africa</h2>
+    <p class="h2sub">World Bank Worldwide Governance Indicators: about −2.5 (worst) to +2.5 (best). Hover or tap a country.</p>
   </div>
 
   <div class="card afwrap">
-    <div class="afhead"><h3 id="afTitle"></h3>
-      <label class="yr">Year <b id="afYearV"></b><input type="range" id="afYearRange" step="1" aria-label="Year"></label>
+    <div class="afleft">
+      <div class="afhead"><h3 id="afTitle"></h3>
+        <label class="yr">Year <b id="afYearV"></b><input type="range" id="afYearRange" step="1" aria-label="Year"></label>
+      </div>
+      <div class="afmap" id="afmap"></div>
+      <div class="aflegend" id="aflegend"></div>
     </div>
-    <div class="afmap" id="afmap"></div>
-    <div class="aflegend" id="aflegend"></div>
-  </div>
-
-  <div class="afside">
-    <div class="card">
-      <div class="sub" style="margin-top:0">Kenya’s score</div>
-      <div class="big" id="afScore" style="font-size:44px">–</div>
-      <p id="afRank" style="margin:8px 0 2px"></p>
-      <div class="sub" id="afChange" style="margin-top:0"></div>
-    </div>
-    <div class="card">
-      <div class="sub" style="margin:0 0 6px">Kenya and its neighbours</div>
+    <div class="afside">
+      <div class="lab">Choose an indicator</div>
+      <div class="seg indsel" id="afInd" role="group" aria-label="Choose an indicator"></div>
+      <div class="afexplain">
+        <div><div class="lab">What it measures</div><p id="afWhat"></p></div>
+        <div><div class="lab">Why it matters for Kenya</div><p id="afWhy"></p></div>
+      </div>
+      <div class="kscore">
+        <div class="big" id="afScore">–</div>
+        <div><p id="afRank"></p><div class="sub" id="afChange"></div></div>
+      </div>
+      <div class="lab" style="margin-top:14px">Kenya and its neighbours</div>
       <div id="afPeers"></div>
     </div>
-    <div class="card">
-      <div class="sub" style="margin:0 0 4px">Kenya <span class="kkey"></span> and the Africa median <span class="mkey"></span>, 2015–2025</div>
-      <div id="afTrend" class="aftrend"></div>
-    </div>
   </div>
-  <div class="src" style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Source: World Bank, Worldwide Governance Indicators, 2025 update (September 2026). The Kenya Economic Update uses Control of Corruption. Map: Natural Earth.</div>
+
+  <div class="card aftrendcard">
+    <div class="sub" style="margin:0 0 4px">Kenya <span class="kkey"></span> and the Africa median <span class="mkey"></span>, 2015–2025</div>
+    <div id="afTrend" class="aftrend"></div>
+    <div class="src">Source: World Bank, Worldwide Governance Indicators, 2025 update (September 2026). The Kenya Economic Update uses Control of Corruption. Map: Natural Earth.</div>
+  </div>
 </section>
 <section class="pane" id="cost" data-tab="The cost">
   <section class="hero">
