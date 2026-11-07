@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cost of Weak Governance</title>
+<meta name="description" content="What weak governance costs Kenya in taxes, power bills, jobs and debt. A dashboard by IEA Kenya based on the World Bank Kenya Economic Update (Edition 34, November 2026).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>.channels.two{grid-template-columns:repeat(2,1fr)}@media (max-width:600px){.channels.two{grid-template-columns:1fr}}.ch.pos{background:var(--green-soft);border-color:transparent}.ch.pos .tag i{background:var(--panel);color:var(--green)}.ch.pos .fig{color:var(--green)}</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><div class="dot">₭</div><span>Cost of Weak Governance</span></div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span class="badge">Draft · not for citation</span>
+    <button class="tbtn" id="theme" type="button" aria-label="Switch light or dark mode">◐ Theme</button>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">IEA Kenya · Public finance accountability</div>
+    <h1>What does weak governance cost Kenya?</h1>
+    <p class="lede">Corruption and weak accountability widen the budget deficit, raise power and transport costs, hold back firms, and tax the earnings of informal workers. This dashboard puts the World Bank’s published estimates in shillings, jobs and debt.</p>
+    <div class="updated" id="updated"></div>
+
+    <div class="headline">
+      <div class="card">
+        <div class="sub" style="margin-top:0">Estimated extra fiscal deficit caused by governance weaknesses, every year</div>
+        <div class="big" id="annual">≈ KSh 380 bn</div>
+        <div class="sub">About <b>2% of GDP</b> a year, the World Bank’s estimate of how much governance constraints widen Kenya’s deficit<sup><a href="#s1">1</a></sup>. Converted at nominal GDP of <span id="gdpNote">KSh 18.9 trillion</span>.</div>
+        <div class="stat-row">
+          <div class="mini"><b id="perPerson">–</b><span>per Kenyan, per year</span></div>
+          <div class="mini"><b id="months">–</b><span>of debt growth, at today’s pace</span></div>
+          <div class="mini"><b id="savingsShare">18%</b><span>of the FY2026/27 deficit could be saved by three fixes<sup><a href="#s1">1</a></sup></span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sub" style="margin-top:0">Lost to weak governance since you opened this page</div>
+        <div class="ticker" id="tick">KSh 0</div>
+        <div class="sub">At about KSh <span id="perSec">–</span> a second (the annual estimate spread evenly over the year).</div>
+        <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+        <div class="sub" style="margin-top:0">Kenya’s public debt right now <span class="pill" id="liveTag">loading</span></div>
+        <div class="ticker" id="debt">–</div>
+        <div class="sub">From the <a id="counterLink" href="#" target="_blank" rel="noopener">Kenya National Debt Counter</a>. <b>Debt is the symptom; governance is the cause.</b></div>
+      </div>
+    </div>
+  </section>
+
+  <h2>The fiscal picture</h2>
+  <p class="h2sub">Where Kenya’s public finances stand, according to the World Bank.</p>
+  <div class="fisc" id="fiscal"></div>
+
+  <h2>Where the losses come from</h2>
+  <p class="h2sub">Five channels identified in the World Bank’s special focus on governance. Figures are the Bank’s own; IEA adds only the conversions shown.</p>
+  <div class="channels" id="channels"></div>
+
+  <h2>What Kenya’s watchdogs report</h2>
+  <p class="h2sub">The Auditor-General, the Ethics and Anti-Corruption Commission, the Judiciary and Transparency International, in their latest reports.</p>
+  <div class="channels two" id="watchdogs"></div>
+  <div class="card" style="margin-top:16px;background:var(--red-soft);border-color:transparent"><div id="recovery" style="font-size:16px"></div></div>
+
+  <h2>Kenya against the benchmark</h2>
+  <p class="h2sub">Kenya today compared with its own budget, its own past, or its peers. Red marks where Kenya falls short.</p>
+  <div class="cmp" id="benchmarks"></div>
+
+  <h2>What if Kenya reformed?</h2>
+  <p class="h2sub">The World Bank modelled three levels of improvement in control of corruption. Choose one to see the gains by 2035, compared with no reform.</p>
+  <div class="card scen">
+    <div>
+      <div class="seg" id="seg" role="group" aria-label="Reform scenario"></div>
+      <p class="scen-desc" id="sdesc"></p>
+    </div>
+    <div class="out">
+      <div class="mini"><b id="sgdp">–</b><span>larger economy by 2035</span></div>
+      <div class="mini"><b id="sjobs">–</b><span>more and better jobs by 2035</span></div>
+      <div class="mini"><b id="sshare">–</b><span>of Kenyans working in 2035 benefit</span></div>
+    </div>
+  </div>
+
+  <h2>Your bribe tax</h2>
+  <p class="h2sub">For traders, boda boda riders and other informal workers: how much do frontline bribes take from you in a year?</p>
+  <div class="card calc">
+    <div>
+      <label for="earn">Your earnings on a typical day (KSh)</label>
+      <input id="earn" type="number" min="0" step="50" inputmode="numeric">
+      <div style="height:14px"></div>
+      <label for="share">Share lost to bribes: <span id="shareV">10%</span></label>
+      <input id="share" type="range" min="0" step="1">
+      <div class="note">The World Bank cites losses of up to <span id="maxShare">20%</span> of daily earnings.</div>
+      <div style="height:14px"></div>
+      <label for="daysW">Working days a year</label>
+      <input id="daysW" type="number" min="1" max="366" inputmode="numeric">
+    </div>
+    <div>
+      <div class="sub" style="margin-top:0">Your estimated bribe tax</div>
+      <div class="result" id="bribeY">–</div>
+      <div class="sub" id="bribeEq"></div>
+    </div>
+  </div>
+
+  <h2>Five levers to track</h2>
+  <p class="h2sub">The measures IEA Kenya proposes to watch. Each is a policy lever with indicators that can be checked every year.</p>
+  <div class="levers" id="levers"></div>
+</main>
+
+<footer><div class="wrap">
+  <b>How to read this dashboard.</b> The headline converts the World Bank’s estimate (governance constraints widen the deficit by about 2% of GDP a year) into shillings at the latest nominal GDP; it is an order of magnitude, not an audited loss. The channel figures are not added together, to avoid double counting. The ticker spreads the annual estimate evenly over the year. Debt, GDP and population come live from the Kenya National Debt Counter when it can be reached.
+  <ol>
+    <li id="s1">World Bank (2026), <i>Kenya Economic Update, Edition No. 34: Special Focus on Governance Constraints to Economic Growth and Job Creation</i>, November 2026.</li>
+    <li>Office of the Auditor-General (2026), <i>Summary Report on National Government FY2024/25</i>.</li>
+    <li>Ethics and Anti-Corruption Commission (2025), <i>Report of Activities and Financial Statements FY2024/25</i>.</li>
+    <li>Judiciary of Kenya, <i>State of the Judiciary and Administration of Justice Annual Reports</i>, 2024/25 and 2025/26.</li>
+    <li>Transparency International (2026), <i>Corruption Perceptions Index 2025</i>.</li>
+    <li>Kenya National Debt Counter (IEA Kenya), live public debt estimate from CBK and National Treasury data.</li>
+  </ol>
+  Institute of Economic Affairs (IEA Kenya) · Prepared for GDSAI 2026, Strathmore University, 19–20 November 2026.
+</div></footer>
+
+<script src="data/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
