@@ -125,6 +125,15 @@
     return '<div class="card lever"><b>' + (i + 1) + ". " + esc(l.title) + "</b><ul>" + l.items.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>";
   }).join("");
 
+  // ---------------------------------------------------------- expandable figure (traffic police card)
+  var tpb = $("tpBtn");
+  if (tpb) tpb.addEventListener("click", function () {
+    var open = tpb.getAttribute("aria-expanded") !== "true";
+    tpb.setAttribute("aria-expanded", String(open));
+    $("tpMore").hidden = !open;
+    tpb.querySelector(".more").firstChild.nodeValue = open ? "Hide details " : "What is behind this figure? ";
+  });
+
   // ---------------------------------------------------------- theme toggle
   $("theme").addEventListener("click", function () {
     var r = document.documentElement, cur = r.getAttribute("data-theme");
