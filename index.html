@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cost of Weak Governance</title>
 <meta name="description" content="What weak governance costs Kenya in taxes, power bills, jobs and debt. A dashboard by IEA Kenya based on the World Bank Kenya Economic Update (Edition 34, November 2026).">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cost-of-weak-governance.vercel.app/">
+<meta property="og:title" content="What does weak governance cost Kenya?">
+<meta property="og:description" content="About KSh 380 bn a year, by the World Bank’s estimate. See how Kenya compares with the rest of Africa. A dashboard by IEA Kenya.">
+<meta property="og:image" content="https://cost-of-weak-governance.vercel.app/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@IEAKenya">
+<meta name="twitter:title" content="What does weak governance cost Kenya?">
+<meta name="twitter:description" content="About KSh 380 bn a year, by the World Bank’s estimate. A dashboard by IEA Kenya.">
+<meta name="twitter:image" content="https://cost-of-weak-governance.vercel.app/assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
@@ -23,7 +35,7 @@
 <section class="pane" id="home" data-tab="Home">
   <div class="homehead">
     <h2>How Kenya compares with the rest of Africa</h2>
-    <p class="h2sub">World Bank governance scores, about −2.5 (worst) to +2.5 (best). Click a country to compare it with Kenya.</p>
+    <a class="hook" href="#cost" id="hook" data-share-host="home">Weak governance costs Kenya <b id="hkCost">≈ KSh 380 bn</b> a year. On control of corruption, Kenya ranks <b id="hkRank">30th of 54</b> in Africa. <span>See the cost →</span></a>
   </div>
 
   <aside class="story" id="story" aria-label="What the map means for you">
@@ -31,6 +43,7 @@
     <p id="stNow"></p>
     <div class="st-k">Why should you care?</div>
     <p class="st-line" id="stLine"></p>
+    <p class="st-why" id="stWhy"></p>
     <div id="stItems" class="st-items"></div>
     <div class="st-guess" id="stGuess">
       <div class="st-k">Quick quiz</div>
@@ -55,7 +68,7 @@
       <div class="seg indsel" id="afInd" role="group" aria-label="Choose an indicator"></div>
       <div class="afexplain">
         <div><div class="lab">What it measures</div><p id="afWhat"></p></div>
-        <div><div class="lab">Why it matters for Kenya</div><p id="afWhy"></p></div>
+        <div class="whyblk"><div class="lab">Why it matters for Kenya</div><p id="afWhy"></p></div>
       </div>
       <div class="kscore">
         <div class="big" id="afScore">–</div>
@@ -84,20 +97,45 @@
 
     <div class="kindkey"><span class="kind estimate">Estimate</span> modelled by the World Bank or others &nbsp; <span class="kind survey">Survey</span> what firms and households report &nbsp; <span class="kind recorded">Recorded</span> audits, tariffs, official records &nbsp; <span class="kind reported">Reported</span> allegations in public sources</div>
   <div class="headline one">
-      <div class="card">
+      <div class="card" id="headline" data-share="Weak governance costs Kenya about KSh 380 bn a year, some 2% of GDP, by the World Bank’s estimate.">
         <div class="sub" style="margin-top:0"><span class="kind estimate">Estimate</span> Extra fiscal deficit caused by governance weaknesses, every year</div>
-        <div class="big" id="annual">≈ KSh 380 bn</div>
+        <button type="button" class="bigbtn" aria-expanded="false" aria-controls="hdMore"><span class="big" id="annual">≈ KSh 380 bn</span><span class="more">How is this calculated? <i>▾</i></span></button>
         <div class="sub">About <b>2% of GDP</b> a year, the World Bank’s estimate of how much governance constraints widen Kenya’s deficit<sup><a href="#s1">1</a></sup>. Converted at nominal GDP of <span id="gdpNote">KSh 18.9 trillion</span>.</div>
         <div class="stat-row">
           <div class="mini"><b id="perPerson">–</b><span>per Kenyan, per year</span></div>
           <div class="mini"><b id="shareDef">≈ 36%</b><span>of the deficit budgeted for FY2026/27 (5.5% of GDP)</span></div>
           <div class="mini"><b id="shareInt">≈ 34%</b><span>of what Kenya pays in interest each year (5.8% of GDP)</span></div>
         </div>
+        <div class="tp-more" id="hdMore" hidden>
+          <div><h4>Where the 2% comes from</h4><p>The World Bank’s November 2026 Kenya Economic Update estimates that corruption and collusion have likely widened Kenya’s budget deficits by about <b>2 percentage points of GDP a year</b>, through inflated spending (above all in procurement) and lost revenue from weaker tax compliance.</p></div>
+          <div><h4>How IEA converts it to shillings</h4><p>2% × nominal GDP (about <b id="hdGdp">KSh 18.9 trillion</b>, read live from the Kenya National Debt Counter) ≈ <b id="hdAnnual">KSh 380 bn</b>. Per person: divided by Kenya’s population (about 54.5 million).</p></div>
+          <div><h4>The comparisons</h4><p>Against the deficit budgeted for FY2026/27 (5.5% of GDP): 2 ÷ 5.5 ≈ 36%. Against interest payments (5.8% of GDP): 2 ÷ 5.8 ≈ 34%. These show scale; they are not claims that the deficit or interest would fall by that much.</p></div>
+          <div><h4>What it is not</h4><p>It is not money counted in audits, and it does not include bribes paid by citizens (such as the KSh 88 bn to traffic police), which never pass through the budget.</p></div>
+          <div class="tp-caveat"><h4>How to read it</h4><p>An order of magnitude from an economic model, not an audited loss. The World Bank notes the true effect may be larger once the cost of higher borrowing rates is included.</p></div>
+          <div class="tp-src">Source: World Bank, Kenya Economic Update No. 34 (Nov 2026), pp. 2, 26–27.</div>
+        </div>
       </div>
     </div>
+
+  <div class="card debtfx" id="debtfx" data-share="If weak governance adds 2% of GDP to Kenya’s deficit every year, debt could be about 17 points of GDP higher by 2035.">
+    <div class="dfx-head">
+      <div><span class="kind estimate">IEA illustration</span> <b>What it does to debt</b>
+        <p class="sub" style="margin:4px 0 0">If governance adds <b id="dfxS">2.0</b>% of GDP to the deficit every year, and that is borrowed, the extra debt piles up with interest.</p></div>
+      <div class="dfx-out"><div><b id="dfxPP">+17</b><span>points of debt-to-GDP by FY2034/35</span></div><div><b id="dfxKsh">≈ KSh 7.4 tn</b><span>extra debt by then</span></div></div>
+    </div>
+    <div class="dfx-body">
+      <div id="dfxChart" class="dfx-chart"></div>
+      <div class="dfx-ctl">
+        <label>Governance cost, % of GDP a year: <b id="dfxSV">2.0</b><input type="range" id="dfxSR" min="1" max="3" step="0.5" value="2"></label>
+        <label>Nominal GDP growth: <b id="dfxGV">10</b>% a year<input type="range" id="dfxGR" min="7" max="13" step="0.5" value="10"></label>
+        <p class="note">Interest on the extra debt: 8.3% a year, Kenya’s average cost of debt (interest 5.8% of GDP ÷ debt 69.9% of GDP). Starts from FY2025/26 GDP of about KSh 18.9 trillion.</p>
+        <p class="note"><b>How to read it:</b> a simple illustration of how a yearly cost compounds, not a forecast. The World Bank’s own reform scenarios also find that debt-to-GDP falls markedly when corruption is controlled.</p>
+      </div>
+    </div>
+  </div>
   </section>
 
-  <div class="card traffic">
+  <div class="card traffic" id="traffic" data-share="Kenyans pay an estimated KSh 88 bn a year in bribes to traffic police, says the World Bank.">
     <div class="tp-fig"><div class="sub" style="margin-top:0"><span class="kind estimate">Estimate</span> Paid to traffic police, every year</div>
       <button type="button" class="bigbtn" id="tpBtn" aria-expanded="false" aria-controls="tpMore"><span class="big" style="font-size:clamp(34px,5vw,52px)">KSh 88 bn</span><span class="more">What is behind this figure? <i>▾</i></span></button>
       <div class="sub">World Bank estimate of total bribe payments to the traffic police<sup><a href="#s2">2</a></sup></div>

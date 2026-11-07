@@ -18,7 +18,7 @@
     panes.forEach(function (p) { p.classList.toggle("active", p.id === id); });
     btns.forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.id === id)); });
     if (push) { try { history.replaceState(null, "", "#" + id); } catch (e) {} }
-    if (target) { setTimeout(function () { target.scrollIntoView({ block: "center" }); }, 0); return; }
+    if (target) { setTimeout(function () { target.scrollIntoView({ block: "start" }); }, 0); return; }
     if (window.matchMedia("(min-width: 901px)").matches) window.scrollTo({ top: 0 });
   }
   btns.forEach(function (b) { b.addEventListener("click", function () { show(b.dataset.id, true); }); });

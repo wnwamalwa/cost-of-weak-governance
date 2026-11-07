@@ -178,7 +178,7 @@ footer{margin-top:40px;padding:20px 0 32px}
 #home .homehead .h2sub{margin:0;font-size:14px}
 body.tabbed #home > .homehead{margin-top:18px}
 #home .afwrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start;padding:16px 20px}
-#home .afmap svg{max-height:calc(100vh - 250px);min-height:340px;width:auto;max-width:100%;margin:0 auto}
+#home .afmap svg{max-height:calc(100vh - 300px);min-height:340px;width:auto;max-width:100%;margin:0 auto}
 #home .afhead{margin-bottom:2px}
 #home .aflegend{margin-top:6px}
 #home .lab{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:6px}
@@ -358,3 +358,56 @@ body.tabbed #home > .homehead{margin-top:18px}
 .ch .kindrow{position:absolute;top:14px;right:14px}
 .ch{position:relative}
 .channels.upside{grid-template-columns:1fr;margin-bottom:16px}
+
+:root{--nodata:#ffffff}
+:root[data-theme="dark"]{--nodata:#2a332e}
+.aflegend i.nd{background:var(--nodata);border:1px dashed var(--muted)}
+#home .aftrend .band{fill:var(--red);opacity:.12;stroke:none}
+.st-or{color:#b35806;font-weight:700}.st-pu{color:#5e3c99;font-weight:700}
+.fchip{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 4px 0 2px;vertical-align:0}
+
+/* Home hook line */
+.hook{display:inline-flex;flex-wrap:wrap;gap:4px 6px;align-items:baseline;margin:2px 0 0;padding:8px 14px;border-radius:12px;background:var(--red-soft);color:var(--ink);text-decoration:none;font-size:15px;line-height:1.4}
+.hook b{color:var(--red)}
+.hook span{font-weight:700;color:var(--green);margin-left:4px}
+.hook:hover{outline:2px solid var(--red)}
+.afhint{font-size:12px;color:var(--muted);flex-basis:100%;margin-top:-4px}
+#home .homehead{margin-bottom:10px}
+.aflegend .lt{font-weight:600;color:var(--ink)}
+
+.st-why{font-size:13px;color:var(--muted)}
+@media (min-width:1200px){ #home .whyblk{display:none} }
+@media (max-width:1199px){ .st-why{display:none} }
+.aflegend .lhint{flex-basis:100%;font-style:italic}
+
+/* headline details + debt illustration */
+.headline .bigbtn .more{margin-bottom:6px}
+.headline .tp-more{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.headline .tp-more[hidden]{display:none}
+.debtfx{margin-top:16px}
+.dfx-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.dfx-head > div:first-child{flex:1 1 380px}
+.dfx-head b{font-size:16px}
+.dfx-out{display:flex;gap:12px}
+.dfx-out > div{background:var(--chip);border-radius:12px;padding:10px 14px;min-width:150px}
+.dfx-out b{display:block;font-size:26px;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
+.dfx-out span{font-size:12.5px;color:var(--muted)}
+.dfx-body{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin-top:12px;align-items:start}
+.dfx-chart svg{width:100%;height:auto;display:block}
+.dfx-chart .g{stroke:var(--line)}
+.dfx-chart .ax{font:11px Inter,system-ui,sans-serif;fill:var(--muted)}
+.dfx-chart .vl{font:700 12px Inter,system-ui,sans-serif;fill:var(--red)}
+.dfx-chart .bar{fill:var(--red);opacity:.85}
+.dfx-chart .bar:hover{opacity:1}
+.dfx-ctl label{font-size:13.5px;font-weight:600;margin-bottom:10px}
+.dfx-ctl input{width:100%;accent-color:var(--red);margin-top:4px}
+.dfx-ctl .note{margin:6px 0 0}
+@media (max-width:900px){.dfx-body,.headline .tp-more{grid-template-columns:1fr}}
+
+/* share buttons */
+.share{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:12.5px;grid-column:1 / -1}
+.share > span{color:var(--muted);font-weight:600;margin-right:2px}
+.share a,.share button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:3px 10px;font:inherit;font-weight:600;text-decoration:none;cursor:pointer}
+.share a:hover,.share button:hover{border-color:var(--green);color:var(--green)}
+.share.inline{display:inline-flex;margin:0 0 0 10px;vertical-align:middle}
+[data-share],.anchor{scroll-margin-top:84px}

@@ -97,6 +97,18 @@ window.CWG_DATA = {
       source: "KEU 34, pp. vi, 37–39 and note 91",
     },
     {
+      key: "F", kind: "recorded", tag: "Found in the books", title: "Warning signs on the record",
+      fig: "KSh 149.7 bn", figLabel: "owed by national government ministries and agencies in pending bills, FY2024/25 (up from KSh 130.3 bn)",
+      bullets: [
+        "<b>KSh 10.2 bn</b> withdrawn without the approval Article 223 requires",
+        "<b>KSh 113.2 bn</b> of Exchequer releases backdated to 30 June 2025",
+        "<b>42 of 47</b> counties spent less than 75% of their development budgets (FY2025/26)",
+        "Audit disclaimers rose from <b>1 to 3</b> (FY2022/23–FY2024/25)",
+      ],
+      source: "Auditor-General, Summary Report on National Government FY2024/25, pp. 6, 12, 24, 31; Controller of Budget FY2025/26, as reported by The Standard (28 Sep 2026)",
+      url: "https://www.oagkenya.go.ke/wp-content/uploads/2026/05/AUDITOR-GENERALS-SUMMARY-REPORT-ON-NATIONAL-GOVERNMENT-–-2024-2025-2.pdf",
+    },
+    {
       key: "↗", kind: "estimate", tag: "The upside", title: "What reform could unlock", positive: true,
       fig: "+7.7 m", figLabel: "more and better jobs by 2035 with ambitious reform",
       bullets: [

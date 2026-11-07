@@ -12,11 +12,12 @@
     var d = e.detail; last = d;
     var beat = d.n - d.kr, share = Math.round(100 * beat / (d.n - 1));
     $("stNow").innerHTML = "Each country is coloured by its <b>" + d.ind.name + "</b> score in " + d.year +
-      ": <span class='st-red'>red</span> is weakest, <span class='st-green'>green</span> strongest. " +
+      ": <span class='st-or'>orange</span> marks Africa’s weakest fifth, <span class='st-pu'>purple</span> the strongest. " +
       "Kenya is <b>" + ordinal(d.kr) + " of " + d.n + "</b>, ahead of " + beat + " countries (" + share + "%). " +
       d.best + " scores highest and " + d.worst + " lowest.";
     var c = d.ind.citizen || { line: "", items: [] };
     $("stLine").textContent = c.line;
+    $("stWhy").textContent = d.ind.why;
     $("stItems").innerHTML = c.items.map(function (it, i) {
       return '<details' + (i === 0 || !wide() ? " open" : "") + '><summary><span class="ic">' + it.icon + "</span>" + it.title + "</summary><p>" + it.text + "</p></details>";
     }).join("");
@@ -47,6 +48,20 @@
   try {
     var H = window.CWG_DATA.headline, pp = H.gdpKsh * H.shareOfGDP / H.population;
     $("stCost").textContent = "≈ KSh " + (Math.round(pp / 100) * 100).toLocaleString("en-GB");
+  } catch (e) {}
+
+  // hook line above the map: headline cost and Kenya's latest Control of Corruption rank
+  try {
+    var H2 = window.CWG_DATA.headline, A = window.CWG_AFRICA;
+    $("hkCost").textContent = "≈ KSh " + Math.round(H2.gdpKsh * H2.shareOfGDP / 1e10) * 10 + " bn";
+    var yrs = A.years, ly = yrs[yrs.length - 1], s = A.data.CC[ly], k = s[A.countries.indexOf("KEN")];
+    $("hkRank").textContent = ordinal(1 + s.filter(function (x) { return x > k; }).length) + " of " + s.length;
+    var host = document.querySelector("#home .homesrc");
+    if (host) {
+      var site = /^https?:/.test(location.protocol) ? location.origin + location.pathname : "https://cost-of-weak-governance.vercel.app/";
+      var txt = "Kenya ranks " + $("hkRank").textContent + " in Africa on the World Bank’s control of corruption score. Weak governance costs Kenya " + $("hkCost").textContent + " a year.";
+      host.insertAdjacentHTML("beforeend", ' <span class="share inline"><span>Share</span><a target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(txt + " via @IEAKenya") + "&url=" + encodeURIComponent(site + "#home") + '">X</a><a target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(txt + " " + site + "#home") + '">WhatsApp</a></span>');
+    }
   } catch (e) {}
 
   document.addEventListener("cwg:map", render);

@@ -17,6 +17,7 @@
     perSec = annual / (365.25 * 86400);
     $("annual").innerHTML = "≈ KSh " + fmt(Math.round(annual / 1e10) * 10) + " bn <small>/ year</small>";
     $("gdpNote").textContent = "KSh " + (gdp / 1e12).toFixed(1) + " trillion";
+    if ($("hdGdp")) { $("hdGdp").textContent = "KSh " + (gdp / 1e12).toFixed(1) + " trillion"; $("hdAnnual").textContent = "KSh " + fmt(Math.round(annual / 1e10) * 10) + " bn"; }
     $("perPerson").textContent = "KSh " + fmt(Math.round(annual / pop / 100) * 100);
     $("shareDef").textContent = "≈ " + Math.round(100 * H.shareOfGDP * 100 / H.deficitFY27PctGDP) + "%";
     $("shareInt").textContent = "≈ " + Math.round(100 * H.shareOfGDP * 100 / H.interestPctGDP) + "%";
@@ -140,7 +141,7 @@
     var host = $(s.where); if (!host) return;
     var id = "spot" + i;
     host.insertAdjacentHTML("beforeend",
-      '<div class="card traffic spot">' +
+      '<div class="card traffic spot" id="card-' + id + '" data-share="' + esc(s.label + ": " + s.fig + ".") + '">' +
         '<div class="tp-fig"><div class="sub" style="margin-top:0">' + (s.kind ? '<span class="kind ' + s.kind + '">' + ({ estimate: "Estimate", survey: "Survey", recorded: "Recorded", reported: "Reported" })[s.kind] + "</span> " : "") + '<span class="spot-tag">' + esc(s.tag) + "</span> " + esc(s.label) + "</div>" +
           '<button type="button" class="bigbtn" aria-expanded="false" aria-controls="' + id + '"><span class="big" style="font-size:clamp(32px,4.6vw,48px)">' + esc(s.fig) + '</span><span class="sub fn">' + esc(s.figNote) + '</span><span class="more">What is behind this figure? <i>▾</i></span></button>' +
         "</div>" +
@@ -152,23 +153,68 @@
         "</div>" +
       "</div>");
   });
-  [].slice.call(document.querySelectorAll(".spot .bigbtn")).forEach(function (b) {
+  // every big figure with a details panel: click to open or close it
+  [].slice.call(document.querySelectorAll(".bigbtn[aria-controls]")).forEach(function (b) {
+    var closed = b.querySelector(".more").firstChild.nodeValue;
     b.addEventListener("click", function () {
       var open = b.getAttribute("aria-expanded") !== "true";
       b.setAttribute("aria-expanded", String(open));
       $(b.getAttribute("aria-controls")).hidden = !open;
-      b.querySelector(".more").firstChild.nodeValue = open ? "Hide details " : "What is behind this figure? ";
+      b.querySelector(".more").firstChild.nodeValue = open ? "Hide details " : closed;
     });
   });
 
-  // ---------------------------------------------------------- expandable figure (traffic police card)
-  var tpb = $("tpBtn");
-  if (tpb) tpb.addEventListener("click", function () {
-    var open = tpb.getAttribute("aria-expanded") !== "true";
-    tpb.setAttribute("aria-expanded", String(open));
-    $("tpMore").hidden = !open;
-    tpb.querySelector(".more").firstChild.nodeValue = open ? "Hide details " : "What is behind this figure? ";
+  // ---------------------------------------------------------- what the governance cost does to debt (illustration)
+  function debtfx() {
+    if (!$("dfxChart")) return;
+    var s = (+$("dfxSR").value) / 100, g = (+$("dfxGR").value) / 100, i = H.interestPctGDP / 69.9;
+    var years = [], E = 0, Y = H.gdpKsh, pts = [];
+    for (var t = 1; t <= 9; t++) { Y = Y * (1 + g); E = E * (1 + i) + s * Y; pts.push({ fy: "FY" + (2025 + t) + "/" + String(26 + t).slice(-2), pp: 100 * E / Y, ksh: E }); }
+    var last = pts[pts.length - 1];
+    $("dfxS").textContent = $("dfxSV").textContent = (s * 100).toFixed(1);
+    $("dfxGV").textContent = (g * 100).toFixed(1).replace(/\.0$/, "");
+    $("dfxPP").textContent = "+" + Math.round(last.pp);
+    $("dfxKsh").textContent = "≈ KSh " + (last.ksh / 1e12).toFixed(1) + " tn";
+    var W = 560, Ht = 190, pl = 34, pb = 26, pt = 14, max = Math.max(25, Math.ceil(last.pp / 5) * 5), bw = (W - pl - 10) / pts.length;
+    var y = function (v) { return pt + (max - v) * (Ht - pt - pb) / max; };
+    var svg = '<svg viewBox="0 0 ' + W + " " + Ht + '" role="img" aria-label="Extra debt as a share of GDP, by year">';
+    for (var v = 0; v <= max; v += 5) svg += '<line class="g" x1="' + pl + '" x2="' + W + '" y1="' + y(v) + '" y2="' + y(v) + '"/><text class="ax" x="' + (pl - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + v + "</text>";
+    pts.forEach(function (p, k) {
+      var x = pl + k * bw + bw * 0.18, w = bw * 0.64;
+      svg += '<rect class="bar" x="' + x + '" y="' + y(p.pp) + '" width="' + w + '" height="' + (y(0) - y(p.pp)) + '"><title>' + p.fy + ": +" + p.pp.toFixed(1) + " points of GDP (≈ KSh " + (p.ksh / 1e12).toFixed(1) + " tn)</title></rect>";
+      if (k === pts.length - 1 || k === 0 || k === 4) svg += '<text class="vl" x="' + (x + w / 2) + '" y="' + (y(p.pp) - 4) + '" text-anchor="middle">+' + p.pp.toFixed(0) + "</text>";
+      svg += '<text class="ax" x="' + (x + w / 2) + '" y="' + (Ht - 8) + '" text-anchor="middle">' + p.fy.replace("FY20", "") + "</text>";
+    });
+    svg += '<text class="ax" x="' + pl + '" y="10">points of GDP</text></svg>';
+    $("dfxChart").innerHTML = svg;
+  }
+  ["dfxSR", "dfxGR"].forEach(function (id) { if ($(id)) $(id).addEventListener("input", debtfx); });
+  debtfx();
+
+    // ---------------------------------------------------------- share buttons on the big figures
+  var SITE = /^https?:/.test(location.protocol) ? location.origin + location.pathname : "https://cost-of-weak-governance.vercel.app/";
+  function shareRow(id, text) {
+    var url = SITE + "#" + id, t = text + " via @IEAKenya";
+    return '<div class="share" aria-label="Share this figure"><span>Share</span>' +
+      '<a target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(t) + "&url=" + encodeURIComponent(url) + '">X</a>' +
+      '<a target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(text + " " + url) + '">WhatsApp</a>' +
+      '<button type="button" data-url="' + url + '">Copy link</button></div>';
+  }
+  [].slice.call(document.querySelectorAll("[data-share]")).forEach(function (el) {
+    el.insertAdjacentHTML("beforeend", shareRow(el.id, el.getAttribute("data-share")));
   });
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".share button"); if (!b) return;
+    var done = function () { b.textContent = "Copied ✓"; setTimeout(function () { b.textContent = "Copy link"; }, 1800); };
+    try { navigator.clipboard.writeText(b.dataset.url).then(done, function () { prompt("Copy this link", b.dataset.url); }); } catch (err) { prompt("Copy this link", b.dataset.url); }
+  });
+  // keep the debt illustration's share text in step with its sliders
+  function dfxShare() {
+    var el = $("debtfx"); if (!el) return;
+    var txt = "If weak governance adds " + $("dfxSV").textContent + "% of GDP to Kenya’s deficit every year, debt could be about " + $("dfxPP").textContent.replace("+", "") + " points of GDP higher by 2035.";
+    var old = el.querySelector(".share"); if (old) old.outerHTML = shareRow("debtfx", txt);
+  }
+  ["dfxSR", "dfxGR"].forEach(function (id) { if ($(id)) $(id).addEventListener("change", dfxShare); });
 
   // ---------------------------------------------------------- theme toggle
   $("theme").addEventListener("click", function () {

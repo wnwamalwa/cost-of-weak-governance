@@ -5,15 +5,12 @@
   if (!A || !D || !box) return;
   var $ = function (id) { return document.getElementById(id); };
   var IND = D.indicators;
-  var BINS = [
-    { max: -1.0, color: "#b42318", label: "Below −1.0" },
-    { max: -0.5, color: "#e8743b", label: "−1.0 to −0.5" },
-    { max: 0.0, color: "#f2c14e", label: "−0.5 to 0" },
-    { max: 0.5, color: "#8cc084", label: "0 to 0.5" },
-    { max: 9, color: "#2e7d4f", label: "Above 0.5" },
-  ];
+  // Colours by rank within Africa (fifths), on an orange-to-purple scale that people with
+  // red-green colour blindness can read. Orange = weakest fifth, purple = strongest fifth.
+  var FIFTHS = ["#5e3c99", "#998ec3", "#cfc8b8", "#f1a340", "#b35806"];   // top fifth ... bottom fifth
+  var FIFTH_NAMES = ["Strongest fifth", "Second fifth", "Middle fifth", "Fourth fifth", "Weakest fifth"];
   var DEFAULT_PEERS = ["RWA", "TZA", "ETH", "UGA"], MAXP = 6;
-  var LINE = ["#2563eb", "#7c3aed", "#0d9488", "#a16207", "#db2777", "#475569"];
+  var LINE = ["#0284c7", "#0d9488", "#db2777", "#65a30d", "#475569", "#111827"];
   var peers = DEFAULT_PEERS.slice();
   try { var sp = JSON.parse(localStorage.getItem("cwg_peers") || "null"); if (Array.isArray(sp)) peers = sp.filter(function (c) { return c !== "KEN"; }).slice(0, MAXP); } catch (e) {}
   function savePeers() { try { localStorage.setItem("cwg_peers", JSON.stringify(peers)); } catch (e) {} }
@@ -21,7 +18,14 @@
   var state = { ind: "CC", year: A.years[A.years.length - 1] };
   var idx = {}; A.countries.forEach(function (c, i) { idx[c] = i; });
   var nameOf = {}; A.shapes.forEach(function (s) { nameOf[s.id] = s.name; });
-  var colorOf = function (v) { if (v == null || isNaN(v)) return "var(--chip)"; for (var i = 0; i < BINS.length; i++) if (v <= BINS[i].max) return BINS[i].color; };
+  var fifthOfRank = function (r, n) { return Math.min(4, Math.ceil(r * 5 / n) - 1); };
+  var colorOf = function (v) {
+    if (v == null || isNaN(v)) return "var(--nodata)";
+    var s = series(state.ind, state.year), r = 1 + s.filter(function (x) { return x > v; }).length;
+    return FIFTHS[fifthOfRank(r, s.length)];
+  };
+  var Z90 = 1.645;
+  var seOf = function (ind, year) { return A.keSE && A.keSE[ind] ? A.keSE[ind][year] : null; };
   var series = function (ind, year) { return A.data[ind][year]; };
   var val = function (id, ind, year) {
     if (id === "SOM_L") id = "SOM";
@@ -40,7 +44,7 @@
   yr.min = A.years[0]; yr.max = A.years[A.years.length - 1]; yr.value = state.year;
 
   // ---- map
-  var svg = '<svg viewBox="0 0 ' + A.w + " " + A.h + '" role="img" aria-label="Map of Africa coloured by the selected governance score">';
+  var svg = '<svg viewBox="0 ' + (A.y0 || 0) + " " + A.w + " " + A.h + '" role="img" aria-label="Map of Africa coloured by the selected governance score">';
   A.shapes.forEach(function (s) { svg += '<path class="c" data-id="' + s.id + '" d="' + s.d + '"/>'; });
   A.shapes.forEach(function (s) { if (s.dot) svg += '<circle class="c dot" data-id="' + s.id + '" cx="' + s.dot[0] + '" cy="' + s.dot[1] + '" r="5"/>'; });
   var ke = A.shapes.filter(function (s) { return s.id === "KEN"; })[0];
@@ -56,8 +60,15 @@
     lbl.setAttribute("x", kb.x + kb.width + 34); lbl.setAttribute("y", kb.y + kb.height * 0.45); lbl.setAttribute("class", "ke-label"); lbl.textContent = "Kenya";
     root.appendChild(ln); root.appendChild(lbl);
   } catch (e) {}
-  $("aflegend").innerHTML = BINS.map(function (b) { return '<span><i style="background:' + b.color + '"></i>' + b.label + "</span>"; }).join("") +
-    '<span><i style="background:var(--chip)"></i>No data</span>';
+  function legend() {
+    var n = series(state.ind, state.year).length, out = [];
+    for (var q = 0; q < 5; q++) {
+      var lo = null, hi = null;
+      for (var r = 1; r <= n; r++) if (fifthOfRank(r, n) === q) { if (lo === null) lo = r; hi = r; }
+      out.push('<span title="' + FIFTH_NAMES[q] + '"><i style="background:' + FIFTHS[q] + '"></i>' + lo + "–" + hi + (q === 0 ? " (strongest)" : q === 4 ? " (weakest)" : "") + "</span>");
+    }
+    $("aflegend").innerHTML = '<span class="lt">Rank in Africa:</span>' + out.join("") + '<span><i class="nd"></i>No data</span><span class="lhint">Click a country to compare it with Kenya</span>';
+  }
 
   // ---- trend chart: Kenya, the Africa median and the chosen peers, 2015 to latest (hover for values, click to set the year)
   var T = { W: 230, H: 140, pl: 30, pr: 14, pt: 8, pb: 18 };
@@ -66,7 +77,11 @@
     var lines = [{ id: "MED", name: "Africa median", cls: "med", v: A.years.map(function (y) { return median(series(state.ind, y)); }) }]
       .concat(peers.map(function (p) { return { id: p, name: nameOf[p], color: peerColor(p), v: A.years.map(function (y) { return val(p, state.ind, y); }) }; }))
       .concat([{ id: "KEN", name: "Kenya", cls: "ken", v: A.years.map(function (y) { return val("KEN", state.ind, y); }) }]);
-    var all = [].concat.apply([], lines.map(function (l) { return l.v; })).filter(function (v) { return v != null && !isNaN(v); });
+    var kse = A.years.map(function (y) { return seOf(state.ind, y); });
+    var kv0 = lines[lines.length - 1].v;
+    var bandHi = kv0.map(function (v, i) { return kse[i] != null ? v + Z90 * kse[i] : v; });
+    var bandLo = kv0.map(function (v, i) { return kse[i] != null ? v - Z90 * kse[i] : v; });
+    var all = [].concat.apply([], lines.map(function (l) { return l.v; })).concat(bandHi, bandLo).filter(function (v) { return v != null && !isNaN(v); });
     var lo = Math.floor(Math.min.apply(null, all) * 4) / 4 - 0.1, hi = Math.ceil(Math.max.apply(null, all) * 4) / 4 + 0.1;
     var x = function (i) { return pl + i * (W - pl - pr) / (A.years.length - 1); };
     var y = function (v) { return pt + (hi - v) * (H - pt - pb) / (hi - lo); };
@@ -78,6 +93,7 @@
     ticks.forEach(function (t) { s += '<line class="g" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y(t) + '" y2="' + y(t) + '"/><text class="ax" x="' + (pl - 5) + '" y="' + (y(t) + 3.5) + '" text-anchor="end">' + fmt(t) + "</text>"; });
     [0, Math.floor((A.years.length - 1) / 2), A.years.length - 1].forEach(function (i) { s += '<text class="ax" x="' + x(i) + '" y="' + (H - 5) + '" text-anchor="middle">' + A.years[i] + "</text>"; });
     s += '<line class="cur" x1="' + x(si) + '" x2="' + x(si) + '" y1="' + pt + '" y2="' + (H - pb) + '"/>';
+    s += '<path class="band" d="' + path(bandHi) + bandLo.map(function (v, i) { return i; }).reverse().map(function (i) { return "L" + x(i).toFixed(1) + "," + y(bandLo[i]).toFixed(1); }).join("") + 'Z"><title>Kenya: 90% margin of error</title></path>';
     lines.forEach(function (l) {
       s += '<path data-id="' + l.id + '" class="ln ' + (l.cls || "peer") + '" d="' + path(l.v) + '"' + (l.color ? ' style="stroke:' + l.color + '"' : "") + "/>";
     });
@@ -139,12 +155,15 @@
 
     var s = series(state.ind, state.year), n = s.length, kv = val("KEN"), kr = rankOf("KEN", state.ind, state.year), med = median(s);
     $("afScore").textContent = fmt(kv);
-    $("afScore").style.color = colorOf(kv);
-    $("afRank").innerHTML = "Kenya ranks <b>" + kr + " of " + n + "</b> African countries (1 = best). " +
+    $("afScore").style.color = "var(--ink)";
+    var fq = fifthOfRank(kr, n);
+    $("afRank").innerHTML = "Kenya ranks <b>" + kr + " of " + n + "</b> African countries (1 = best), in the <span class='fchip' style='background:" + FIFTHS[fq] + "'></span>" + FIFTH_NAMES[fq].toLowerCase() + ". " +
       (kv >= med ? "Above" : "Below") + " the Africa median of " + fmt(med) + ".";
     var first = A.years[0], prev = String(+state.year - 1), bits = [];
-    if (A.data[state.ind][prev]) { var pv = val("KEN", state.ind, prev); bits.push((kv > pv ? "Up" : kv < pv ? "Down" : "No change") + " from " + fmt(pv) + " in " + prev); }
-    if (state.year !== first) { var fv = val("KEN", state.ind, first); bits.push((kv > fv ? "better" : "worse") + " than in " + first + " (" + fmt(fv) + ", rank " + rankOf("KEN", state.ind, first) + ")"); }
+    var sig = function (a, ya, b, yb) { var s1 = seOf(state.ind, ya), s2 = seOf(state.ind, yb); return !(s1 && s2) || Math.abs(a - b) > Z90 * (s1 + s2); };
+    var word = function (a, b, up, down) { return a > b ? up : a < b ? down : "no change"; };
+    if (A.data[state.ind][prev]) { var pv = val("KEN", state.ind, prev); bits.push(word(kv, pv, "Up", "Down") + " from " + fmt(pv) + " in " + prev + (sig(kv, state.year, pv, prev) ? "" : " (within the margin of error)")); }
+    if (state.year !== first) { var fv = val("KEN", state.ind, first); bits.push(word(kv, fv, "better", "worse") + " than in " + first + " (" + fmt(fv) + ", rank " + rankOf("KEN", state.ind, first) + ")" + (sig(kv, state.year, fv, first) ? "" : ", also within the margin")); }
     $("afChange").textContent = bits.length ? bits.join("; ") + "." : "";
 
     var rows = [{ id: "KEN", v: kv }].concat(peers.map(function (p) { return { id: p, v: val(p) }; })).concat([{ id: "MED", v: med }]);
@@ -156,6 +175,7 @@
       return '<div class="pr' + (r.id === "KEN" ? " k" : "") + '" data-id="' + r.id + '"><span><i class="sw' + (r.id === "MED" ? " dash" : "") + '" style="background:' + sw + ';border-color:' + sw + '"></i>' + label + '</span><div class="scale"><i style="left:' + pos + '%;background:' + (r.id === "MED" ? "var(--muted)" : colorOf(r.v)) + '"></i></div><b>' + fmt(r.v) + "</b>" + rm + "</div>";
     }).join("");
     peerList();
+    legend();
     trend();
     var ord = A.countries.slice().sort(function (a, b) { return s[idx[b]] - s[idx[a]]; });
     try { var det = { ind: d, year: state.year, kv: kv, kr: kr, n: n, med: med, best: nameOf[ord[0]], worst: nameOf[ord[ord.length - 1]], rank: function (id) { return rankOf(id, state.ind, state.year); } }; window.CWG_LAST = det; document.dispatchEvent(new CustomEvent("cwg:map", { detail: det })); } catch (e) {}
