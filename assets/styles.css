@@ -321,7 +321,8 @@ body.tabbed #home > .homehead{margin-top:18px}
   #cost{display:grid;grid-template-columns:minmax(0,1fr) 320px;column-gap:28px;align-items:start}
   #cost .costmain{grid-column:1}
   #cost .fiscside{grid-column:2;position:sticky;top:76px;margin-top:40px;max-height:calc(100vh - 90px);overflow:auto;padding:2px 4px 8px 2px}
-  #cost .fiscside h2{margin-top:20px!important}
+  #cost .fiscside h2{margin-top:0!important}
+  #cost .fiscside .livecard{margin-top:14px}
   #cost .fiscside h2{margin:0 0 4px;font-size:20px}
   #cost .fiscside .h2sub{font-size:13.5px;margin-bottom:12px}
   #cost .fiscside .fisc{grid-template-columns:1fr;gap:10px}
