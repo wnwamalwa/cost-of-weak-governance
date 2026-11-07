@@ -26,6 +26,22 @@
     <p class="h2sub">World Bank governance scores, about −2.5 (worst) to +2.5 (best). Click a country to compare it with Kenya.</p>
   </div>
 
+  <aside class="story" id="story" aria-label="What the map means for you">
+    <div class="st-k">What you are looking at</div>
+    <p id="stNow"></p>
+    <div class="st-k">Why should you care?</div>
+    <p class="st-line" id="stLine"></p>
+    <div id="stItems" class="st-items"></div>
+    <div class="st-guess" id="stGuess">
+      <div class="st-k">Quick quiz</div>
+      <p id="stQ"></p>
+      <input type="range" id="stG" min="1" max="54" value="27" aria-label="Your guess">
+      <div class="st-row"><span>Your guess: <b id="stGV">27</b></span><button type="button" id="stGo">Check</button></div>
+      <p class="st-ans" id="stA" hidden></p>
+    </div>
+    <div class="st-cost"><b id="stCost">≈ KSh 6,900</b> per Kenyan a year: what weak governance costs, by the World Bank’s estimate. <a href="#cost">See the cost →</a></div>
+  </aside>
+
   <div class="card afwrap">
     <div class="afleft">
       <div class="afhead"><h3 id="afTitle"></h3>
@@ -199,6 +215,7 @@
 <script src="data/africa.js"></script>
 <script src="assets/app.js"></script>
 <script src="assets/map.js"></script>
+<script src="assets/story.js"></script>
 <script src="assets/tabs.js"></script>
 </body>
 </html>

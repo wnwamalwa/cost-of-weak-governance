@@ -157,6 +157,8 @@
     }).join("");
     peerList();
     trend();
+    var ord = A.countries.slice().sort(function (a, b) { return s[idx[b]] - s[idx[a]]; });
+    try { var det = { ind: d, year: state.year, kv: kv, kr: kr, n: n, med: med, best: nameOf[ord[0]], worst: nameOf[ord[ord.length - 1]], rank: function (id) { return rankOf(id, state.ind, state.year); } }; window.CWG_LAST = det; document.dispatchEvent(new CustomEvent("cwg:map", { detail: det })); } catch (e) {}
   }
 
   // highlight a country's line when its row is hovered
