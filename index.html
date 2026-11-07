@@ -82,24 +82,25 @@
     <p class="lede">Corruption and weak accountability widen the budget deficit, raise power and transport costs, hold back firms, and tax the earnings of informal workers. This dashboard puts published estimates from the World Bank and Kenya’s own watchdogs in shillings, jobs and debt.</p>
     <div class="updated" id="updated"></div>
 
-    <div class="headline one">
+    <div class="kindkey"><span class="kind estimate">Estimate</span> modelled by the World Bank or others &nbsp; <span class="kind survey">Survey</span> what firms and households report &nbsp; <span class="kind recorded">Recorded</span> audits, tariffs, official records &nbsp; <span class="kind reported">Reported</span> allegations in public sources</div>
+  <div class="headline one">
       <div class="card">
-        <div class="sub" style="margin-top:0">Estimated extra fiscal deficit caused by governance weaknesses, every year</div>
+        <div class="sub" style="margin-top:0"><span class="kind estimate">Estimate</span> Extra fiscal deficit caused by governance weaknesses, every year</div>
         <div class="big" id="annual">≈ KSh 380 bn</div>
         <div class="sub">About <b>2% of GDP</b> a year, the World Bank’s estimate of how much governance constraints widen Kenya’s deficit<sup><a href="#s1">1</a></sup>. Converted at nominal GDP of <span id="gdpNote">KSh 18.9 trillion</span>.</div>
         <div class="stat-row">
           <div class="mini"><b id="perPerson">–</b><span>per Kenyan, per year</span></div>
-          <div class="mini"><b id="months">–</b><span>of debt growth, at today’s pace</span></div>
-          <div class="mini"><b id="savingsShare">18%</b><span>of the FY2026/27 deficit could be saved by three fixes<sup><a href="#s1">1</a></sup></span></div>
+          <div class="mini"><b id="shareDef">≈ 36%</b><span>of the deficit budgeted for FY2026/27 (5.5% of GDP)</span></div>
+          <div class="mini"><b id="shareInt">≈ 34%</b><span>of what Kenya pays in interest each year (5.8% of GDP)</span></div>
         </div>
       </div>
     </div>
   </section>
 
   <div class="card traffic">
-    <div class="tp-fig"><div class="sub" style="margin-top:0">Paid to traffic police, every year</div>
+    <div class="tp-fig"><div class="sub" style="margin-top:0"><span class="kind estimate">Estimate</span> Paid to traffic police, every year</div>
       <button type="button" class="bigbtn" id="tpBtn" aria-expanded="false" aria-controls="tpMore"><span class="big" style="font-size:clamp(34px,5vw,52px)">KSh 88 bn</span><span class="more">What is behind this figure? <i>▾</i></span></button>
-      <div class="sub">World Bank estimate of total bribe payments to the traffic police<sup><a href="#s1">1</a></sup></div>
+      <div class="sub">World Bank estimate of total bribe payments to the traffic police<sup><a href="#s2">2</a></sup></div>
     </div>
     <div class="tp-stats">
       <div class="mini"><b>KSh 241 m</b><span>a day</span></div>
@@ -158,7 +159,6 @@
       <div class="sub"><b>Debt is the symptom; governance is the cause.</b></div>
     </div>
     <h2>The fiscal picture</h2>
-    <p class="h2sub">Where Kenya’s public finances stand, according to the World Bank.</p>
     <div class="fisc" id="fiscal"></div>
   </aside>
 
@@ -179,6 +179,7 @@
 <section class="pane" id="reform" data-tab="Reform scenarios">
   <h2>What if Kenya reformed?</h2>
   <p class="h2sub">The World Bank modelled three levels of improvement in control of corruption. Choose one to see the gains by 2035, compared with no reform.</p>
+  <div class="channels upside" id="upside"></div>
   <div class="card scen">
     <div>
       <div class="seg" id="seg" role="group" aria-label="Reform scenario"></div>
@@ -231,7 +232,7 @@
       <ul>
         <li><b>The headline</b> converts the World Bank’s estimate (governance constraints widen the deficit by about 2% of GDP a year) into shillings at the latest nominal GDP. It is an order of magnitude, not an audited loss.</li>
         <li><b>The channel figures</b> are not added together, to avoid double counting.</li>
-        <li><b>The ticker</b> spreads the annual estimate evenly over the year.</li>
+        <li><b>Labels</b> on each figure say what kind of evidence it is: <i>Estimate</i> (modelled), <i>Survey</i> (what firms and households report), <i>Recorded</i> (audits, tariffs and official records) or <i>Reported</i> (allegations in public sources). Estimates and recorded losses measure different things and should not be added together.</li>
         <li><b>Debt, GDP and population</b> come live from the Kenya National Debt Counter when it can be reached; otherwise the page uses the last saved figures.</li>
         <li><b>The Africa map</b> uses the World Bank’s Control of Corruption score (about −2.5 worst to +2.5 best), the index behind the report’s reform scenarios.</li>
       </ul>
@@ -241,7 +242,7 @@
       <h3>Sources</h3>
       <ol class="srcs">
         <li id="s1">World Bank (2026), <i>Kenya Economic Update, Edition No. 34: Special Focus on Governance Constraints to Economic Growth and Job Creation</i>, November 2026.</li>
-        <li>World Bank (2025b), <i>Kenya Economic Update, Edition No. 32</i>: source of the KSh 88 billion a year estimate of payments to the traffic police (cited in Edition No. 34, note 91).</li>
+        <li id="s2">World Bank (2025b), <i>Kenya Economic Update, Edition No. 32</i>: source of the KSh 88 billion a year estimate of payments to the traffic police (cited in Edition No. 34, note 91).</li>
         <li>Office of the Auditor-General (2026), <a href="https://www.oagkenya.go.ke/wp-content/uploads/2026/05/AUDITOR-GENERALS-SUMMARY-REPORT-ON-NATIONAL-GOVERNMENT-–-2024-2025-2.pdf" target="_blank" rel="noopener"><i>Summary Report on National Government FY2024/25</i></a>.</li>
         <li>Ethics and Anti-Corruption Commission (2025), <a href="https://eacc.go.ke/en/default/wp-content/uploads/2025/12/EACC-REPORT-OF-ACTIVITIES-AND-FINANCIAL-STATEMENTS-FOR-THE-FINANCIAL-YEAR-2024-2025-FINAL-VERSION-2-2.pdf" target="_blank" rel="noopener"><i>Report of Activities and Financial Statements FY2024/25</i></a>.</li>
         <li>Judiciary of Kenya, <a href="https://judiciary.go.ke/wp-content/uploads/2025/12/SOJAR-2024-2025-Final-Dec-12.pdf" target="_blank" rel="noopener"><i>State of the Judiciary and Administration of Justice Annual Reports</i></a>, 2024/25 and 2025/26.</li>

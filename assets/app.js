@@ -18,11 +18,10 @@
     $("annual").innerHTML = "≈ KSh " + fmt(Math.round(annual / 1e10) * 10) + " bn <small>/ year</small>";
     $("gdpNote").textContent = "KSh " + (gdp / 1e12).toFixed(1) + " trillion";
     $("perPerson").textContent = "KSh " + fmt(Math.round(annual / pop / 100) * 100);
-    var months = annual / (debt.gps * 86400) / 30.4;
-    $("months").textContent = "~" + Math.round(months) + " months";
+    $("shareDef").textContent = "≈ " + Math.round(100 * H.shareOfGDP * 100 / H.deficitFY27PctGDP) + "%";
+    $("shareInt").textContent = "≈ " + Math.round(100 * H.shareOfGDP * 100 / H.interestPctGDP) + "%";
     if (typeof drawRecovery === "function") drawRecovery();
   }
-  $("savingsShare").textContent = H.savingsShareOfDeficit + "%";
   $("updated").textContent = "Figures updated " + D.updated;
   $("counterLink").href = L.counterUrl;
   $("debt").href = L.counterUrl;
@@ -72,7 +71,9 @@
         return '<div class="bar' + (b.highlight ? " ke" : "") + '"><span>' + esc(b.label) + '</span><div class="t"><div style="width:' + (100 * b.value / max).toFixed(0) + '%"></div></div><b>' + b.value.toFixed(dp) + "</b></div>";
       }).join("") + "</div>";
     }
-    return '<article class="card ch' + (c.positive ? " pos" : "") + '">' +
+    var KIND = { estimate: "Estimate", survey: "Survey", recorded: "Recorded", reported: "Reported" };
+    var badge = c.kind ? '<span class="kind ' + c.kind + '">' + KIND[c.kind] + "</span>" : "";
+    return '<article class="card ch' + (c.positive ? " pos" : "") + '">' + (badge ? '<div class="kindrow">' + badge + "</div>" : "") +
       '<span class="tag"><i>' + esc(c.key) + "</i>" + esc(c.tag) + "</span>" +
       "<h3>" + esc(c.title) + "</h3>" +
       (c.fig ? '<div class="fig">' + esc(c.fig) + "</div>" : "") +
@@ -80,7 +81,8 @@
       "<ul>" + c.bullets.map(function (b) { return "<li>" + b + "</li>"; }).join("") + "</ul>" +
       '<div class="src">' + (c.url ? '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.source) + "</a>" : "World Bank " + esc(c.source)) + "</div></article>";
   }
-  $("channels").innerHTML = D.channels.map(cardHtml).join("");
+  $("channels").innerHTML = D.channels.filter(function (c) { return !c.positive; }).map(cardHtml).join("");
+  if ($("upside")) $("upside").innerHTML = D.channels.filter(function (c) { return c.positive; }).map(cardHtml).join("");
   $("watchdogs").innerHTML = (D.watchdogs || []).map(cardHtml).join("");
   var rec = (D.watchdogs || []).filter(function (w) { return w.compareRecovered; })[0];
   function drawRecovery() {
@@ -139,7 +141,7 @@
     var id = "spot" + i;
     host.insertAdjacentHTML("beforeend",
       '<div class="card traffic spot">' +
-        '<div class="tp-fig"><div class="sub" style="margin-top:0"><span class="spot-tag">' + esc(s.tag) + "</span> " + esc(s.label) + "</div>" +
+        '<div class="tp-fig"><div class="sub" style="margin-top:0">' + (s.kind ? '<span class="kind ' + s.kind + '">' + ({ estimate: "Estimate", survey: "Survey", recorded: "Recorded", reported: "Reported" })[s.kind] + "</span> " : "") + '<span class="spot-tag">' + esc(s.tag) + "</span> " + esc(s.label) + "</div>" +
           '<button type="button" class="bigbtn" aria-expanded="false" aria-controls="' + id + '"><span class="big" style="font-size:clamp(32px,4.6vw,48px)">' + esc(s.fig) + '</span><span class="sub fn">' + esc(s.figNote) + '</span><span class="more">What is behind this figure? <i>▾</i></span></button>' +
         "</div>" +
         '<div class="tp-stats">' + s.stats.map(function (t) { return '<div class="mini"><b>' + esc(t.v) + "</b><span>" + esc(t.l) + "</span></div>"; }).join("") + "</div>" +

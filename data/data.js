@@ -14,6 +14,8 @@ window.CWG_DATA = {
     population: 54.54e6,       // fallback population; replaced by the live figure when available
     savingsKshBn: 192.8,       // three fixes, a year (KEU 34)
     savingsShareOfDeficit: 18, // % of the FY2026/27 deficit
+    deficitFY27PctGDP: 5.5,    // FY2026/27 budgeted deficit, % of GDP (KEU 34)
+    interestPctGDP: 5.8,       // interest payments, % of GDP (KEU 34)
     source: "KEU 34, pp. v, 2, 27",
   },
 
@@ -32,14 +34,13 @@ window.CWG_DATA = {
   fiscal: [
     { label: "Fiscal deficit FY2025/26", value: "6.8%", note: "of GDP, against 4.7% budgeted" },
     { label: "Primary balance FY2025/26", value: "−1.0%", note: "of GDP; +0.5% budgeted for FY2026/27" },
-    { label: "Public debt", value: "69.9%", note: "of GDP" },
     { label: "Interest payments", value: "33.6%", note: "of revenue (5.8% of GDP)" },
   ],
 
   // ---- loss channels -------------------------------------------------
   channels: [
     {
-      key: "A", tag: "Fiscal leakage", title: "Wider deficits, costlier debt",
+      key: "A", kind: "estimate", tag: "Fiscal leakage", title: "Wider deficits, costlier debt",
       fig: "KSh 192.8 bn", figLabel: "a year saved by three fixes, about 18% of the FY2026/27 deficit",
       bullets: [
         "Cut procurement leakage by 10%: about <b>KSh 120 bn</b>",
@@ -50,7 +51,7 @@ window.CWG_DATA = {
       source: "KEU 34, pp. v, 2, 27",
     },
     {
-      key: "B", tag: "Accountability", title: "Audit findings ignored",
+      key: "B", kind: "recorded", tag: "Accountability", title: "Audit findings ignored",
       fig: "18–21%", figLabel: "of Auditor-General recommendations adopted (late 2025), down from 45% in 2015",
       bullets: [
         "<b>79%</b> of Public Accounts Committee recommendations (FY2020/21) still pending",
@@ -60,7 +61,7 @@ window.CWG_DATA = {
       source: "KEU 34, p. 40",
     },
     {
-      key: "C", tag: "Backbone costs", title: "Power that costs more",
+      key: "C", kind: "recorded", tag: "Backbone costs", title: "Power that costs more",
       figLabel: "Electricity for businesses, US cents per kWh",
       bars: [
         { label: "Kenya", value: 17.5, highlight: true },
@@ -71,12 +72,12 @@ window.CWG_DATA = {
       ],
       bullets: [
         "Only <b>24%</b> of 42 power purchase agreements were competitively procured",
-        "Mombasa port ranked <b>375 of 403</b> worldwide",
+        "Mombasa ranked <b>375 of 403</b> ports on the World Bank’s Container Port Performance Index",
       ],
       source: "KEU 34, Table 5, pp. v, 27–28",
     },
     {
-      key: "D", tag: "Firms and jobs", title: "Bribes that hold firms back",
+      key: "D", kind: "survey", tag: "Firms and jobs", title: "Bribes that hold firms back",
       fig: "36%", figLabel: "of firms faced at least one bribe request in the past year",
       bullets: [
         "<b>39%</b> call corruption a major constraint (2025), up from 25% in 2013",
@@ -86,18 +87,17 @@ window.CWG_DATA = {
       source: "KEU 34, pp. v, 17, 32–36",
     },
     {
-      key: "E", tag: "Households", title: "The informal “bribe tax”",
+      key: "E", kind: "survey", tag: "Households", title: "The informal “bribe tax”",
       fig: "Up to 20%", figLabel: "of an informal worker’s daily earnings lost to frontline bribes",
       bullets: [
         "Informal workers are <b>83.8%</b> of Kenya’s workforce",
-        "<b>KSh 88 bn</b> a year paid to traffic police (World Bank 2025b)",
         "Riders report paying <b>KSh 50–100 a day</b> in bribes",
         "Poorer workers are more likely to pay",
       ],
       source: "KEU 34, pp. vi, 37–39 and note 91",
     },
     {
-      key: "↗", tag: "The upside", title: "What reform could unlock", positive: true,
+      key: "↗", kind: "estimate", tag: "The upside", title: "What reform could unlock", positive: true,
       fig: "+7.7 m", figLabel: "more and better jobs by 2035 with ambitious reform",
       bullets: [
         "GDP up to <b>22.3%</b> larger by 2035",
@@ -171,7 +171,7 @@ window.CWG_DATA = {
   // where = id of the container on the page
   spotlights: [
     {
-      where: "spotCost", tag: "How big is the problem?", label: "Estimates of what corruption costs Kenya each year",
+      where: "spotCost", kind: "estimate", tag: "How big is the problem?", label: "Estimates of what corruption costs Kenya each year",
       fig: "KSh 194–608 bn", figNote: "depending on who you ask",
       stats: [
         { v: "KSh 194 bn", l: "African Development Bank estimate of annual losses" },
@@ -186,7 +186,7 @@ window.CWG_DATA = {
       source: "World Bank, Kenya Economic Update No. 34 (Nov 2026), p. 23 and note 21, citing the African Development Bank (2025) and remarks by Prime Cabinet Secretary Mudavadi (Aug 2024).",
     },
     {
-      where: "spotLosses", tag: "Standard Gauge Railway", label: "Could have been saved on the Mombasa–Nairobi railway",
+      where: "spotLosses", kind: "recorded", tag: "Standard Gauge Railway", label: "Could have been saved on the Mombasa–Nairobi railway",
       fig: "US$900 m", figNote: "at Tanzania’s cost per kilometre",
       stats: [
         { v: "US$7.6 m", l: "per km, Mombasa–Nairobi (diesel)" },
@@ -202,7 +202,7 @@ window.CWG_DATA = {
       source: "World Bank, Kenya Economic Update No. 34 (Nov 2026), p. 26.",
     },
     {
-      where: "spotLosses", tag: "Lake Turkana wind power", label: "Reportedly paid for electricity that was never used",
+      where: "spotLosses", kind: "reported", tag: "Lake Turkana wind power", label: "Reportedly paid for electricity that was never used",
       fig: "US$150 m", figNote: "in ‘take-or-pay’ penalties",
       stats: [
         { v: "Take-or-pay", l: "the contract pays for power the plant can produce, used or not" },
@@ -217,7 +217,7 @@ window.CWG_DATA = {
       source: "World Bank, Kenya Economic Update No. 34 (Nov 2026), p. 28 and note 56.",
     },
     {
-      where: "spotLevers", tag: "Procurement transparency", label: "Share of public procurement published with winners and contract amounts",
+      where: "spotLevers", kind: "recorded", tag: "Procurement transparency", label: "Share of public procurement published with winners and contract amounts",
       fig: "≈ 15%", figNote: "KSh 186 bn of about KSh 1.2 trillion",
       stats: [
         { v: "KSh 1.2 tn", l: "estimated spending through public procurement a year" },

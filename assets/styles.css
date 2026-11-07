@@ -345,3 +345,16 @@ body.tabbed #home > .homehead{margin-top:18px}
 .livecard .lrow b{display:block;font-size:17px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .livecard .lrow span{font-size:12.5px;color:var(--muted)}
 .livecard .lcta{display:block;margin:12px 0 6px;font-weight:600;font-size:14px}
+
+/* evidence labels */
+.kind{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:4px;padding:2px 6px;margin-right:4px;vertical-align:1px}
+.kind.estimate{background:var(--amber-soft);color:var(--amber)}
+.kind.survey{background:#e8f0fe;color:#1d4ed8}
+.kind.recorded{background:var(--green-soft);color:var(--green)}
+.kind.reported{background:#f3e8ff;color:#7e22ce}
+:root[data-theme="dark"] .kind.survey{background:#172036;color:#93b4ff}
+:root[data-theme="dark"] .kind.reported{background:#2a1838;color:#d8b4fe}
+.kindkey{font-size:12.5px;color:var(--muted);margin:8px 0 12px;line-height:2}
+.ch .kindrow{position:absolute;top:14px;right:14px}
+.ch{position:relative}
+.channels.upside{grid-template-columns:1fr;margin-bottom:16px}
