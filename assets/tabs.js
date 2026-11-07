@@ -18,4 +18,6 @@
   btns.forEach(function (b) { b.addEventListener("click", function () { show(b.dataset.id, true); }); });
   window.addEventListener("hashchange", function () { show(location.hash.slice(1), false); });
   show(location.hash.slice(1), false);
+  // stop the browser jumping down to the section on load (desktop tabs show it at the top)
+  window.addEventListener("load", function () { if (window.matchMedia("(min-width: 901px)").matches) setTimeout(function () { window.scrollTo(0, 0); }, 0); });
 })();

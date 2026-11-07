@@ -98,17 +98,23 @@ footer ol{padding-left:18px}
 
 .ch .tag i{width:auto;min-width:22px;padding:0 6px}
 
-/* tabs (desktop) */
-.tabs{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
-.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
-.tabs .wrap::-webkit-scrollbar{display:none}
-.tabs button{flex:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:14px;font-weight:600;padding:14px 12px 12px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+/* top bar: brand, tabs and tools on one line */
+header.top{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
+header.top .bar{max-width:1400px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:20px;min-height:60px}
+.brand{text-decoration:none;color:var(--ink);flex:none}
+.kmap{width:30px;height:38px;flex:none}
+.kmap path{fill:var(--green);stroke:var(--green);stroke-width:1.5;stroke-linejoin:round}
+.tools{display:flex;gap:8px;align-items:center;flex:none;margin-left:auto}
+.tabs{flex:1;min-width:0;align-self:stretch;display:flex}
+.tabs #tabbar{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;align-items:stretch}
+.tabs #tabbar::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:14px;font-weight:600;padding:0 10px;border-bottom:3px solid transparent;border-top:3px solid transparent;cursor:pointer;white-space:nowrap}
 .tabs button:hover{color:var(--ink)}
 .tabs button[aria-selected="true"]{color:var(--green);border-bottom-color:var(--green)}
 @media (min-width:901px){
   body.tabbed .pane{display:none}
-  body.tabbed .pane.active{display:block}
+  body.tabbed .pane.active{display:block;min-height:60vh}
   body.tabbed .pane > h2:first-child{margin-top:32px}
-  body.tabbed .pane{min-height:60vh}
 }
-@media (max-width:900px){ .tabs{display:none} }
+@media (max-width:1240px){ .tools .badge{display:none} .tabs button{padding:0 7px;font-size:13px} header.top .bar{gap:12px} }
+@media (max-width:900px){ .tabs{display:none} header.top .bar{justify-content:space-between} }
