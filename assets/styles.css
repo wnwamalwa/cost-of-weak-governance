@@ -140,3 +140,4 @@ header.top .bar{max-width:1400px;margin:0 auto;padding:0 16px;display:flex;align
 .afmap .ke-label{font:700 15px Inter,system-ui,sans-serif;fill:var(--ink);paint-order:stroke;stroke:var(--panel);stroke-width:3px}
 .afmap .ke-line{stroke:var(--ink);stroke-width:1.2}
 .afmap .ke-outline{stroke-width:2.6}
+#home > h2:first-child{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.02em}
