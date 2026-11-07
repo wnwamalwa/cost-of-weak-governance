@@ -125,6 +125,32 @@
     return '<div class="card lever"><b>' + (i + 1) + ". " + esc(l.title) + "</b><ul>" + l.items.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>";
   }).join("");
 
+  // ---------------------------------------------------------- spotlight figures (click to expand)
+  (D.spotlights || []).forEach(function (s, i) {
+    var host = $(s.where); if (!host) return;
+    var id = "spot" + i;
+    host.insertAdjacentHTML("beforeend",
+      '<div class="card traffic spot">' +
+        '<div class="tp-fig"><div class="sub" style="margin-top:0"><span class="spot-tag">' + esc(s.tag) + "</span> " + esc(s.label) + "</div>" +
+          '<button type="button" class="bigbtn" aria-expanded="false" aria-controls="' + id + '"><span class="big" style="font-size:clamp(32px,4.6vw,48px)">' + esc(s.fig) + '</span><span class="sub fn">' + esc(s.figNote) + '</span><span class="more">What is behind this figure? <i>▾</i></span></button>' +
+        "</div>" +
+        '<div class="tp-stats">' + s.stats.map(function (t) { return '<div class="mini"><b>' + esc(t.v) + "</b><span>" + esc(t.l) + "</span></div>"; }).join("") + "</div>" +
+        '<div class="tp-more" id="' + id + '" hidden>' +
+          s.more.map(function (m) { return "<div><h4>" + esc(m.h) + "</h4><p>" + esc(m.p) + "</p></div>"; }).join("") +
+          '<div class="tp-caveat"><h4>How to read it</h4><p>' + esc(s.caveat) + "</p></div>" +
+          '<div class="tp-src">Source: ' + esc(s.source) + "</div>" +
+        "</div>" +
+      "</div>");
+  });
+  [].slice.call(document.querySelectorAll(".spot .bigbtn")).forEach(function (b) {
+    b.addEventListener("click", function () {
+      var open = b.getAttribute("aria-expanded") !== "true";
+      b.setAttribute("aria-expanded", String(open));
+      $(b.getAttribute("aria-controls")).hidden = !open;
+      b.querySelector(".more").firstChild.nodeValue = open ? "Hide details " : "What is behind this figure? ";
+    });
+  });
+
   // ---------------------------------------------------------- expandable figure (traffic police card)
   var tpb = $("tpBtn");
   if (tpb) tpb.addEventListener("click", function () {

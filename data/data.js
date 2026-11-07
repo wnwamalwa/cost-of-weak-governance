@@ -165,6 +165,73 @@ window.CWG_DATA = {
         ] } },
   ],
 
+  // ---- expandable "spotlight" figures: click the big number for details ----
+  // where = id of the container on the page
+  spotlights: [
+    {
+      where: "spotCost", tag: "How big is the problem?", label: "Estimates of what corruption costs Kenya each year",
+      fig: "KSh 194–608 bn", figNote: "depending on who you ask",
+      stats: [
+        { v: "KSh 194 bn", l: "African Development Bank estimate of annual losses" },
+        { v: "≈ KSh 380 bn", l: "World Bank: extra deficit, about 2% of GDP" },
+        { v: "KSh 608 bn", l: "figure cited by the Prime Cabinet Secretary in 2024 (3.8% of GDP)" },
+      ],
+      more: [
+        { h: "Why the estimates differ", p: "They measure different things. The African Development Bank and the 2024 government figure try to count money lost to corruption. The World Bank estimates how much weak governance widens the budget deficit, through overspending and lost revenue." },
+        { h: "What they agree on", p: "Every estimate runs to hundreds of billions of shillings a year: between about 1% and 4% of GDP. Even the lowest is larger than many ministries’ budgets." },
+      ],
+      caveat: "No one can count corruption directly. Treat these as a range of informed estimates, not a measured loss, and do not add them together.",
+      source: "World Bank, Kenya Economic Update No. 34 (Nov 2026), p. 23 and note 21, citing the African Development Bank (2025) and remarks by Prime Cabinet Secretary Mudavadi (Aug 2024).",
+    },
+    {
+      where: "spotLosses", tag: "Standard Gauge Railway", label: "Could have been saved on the Mombasa–Nairobi railway",
+      fig: "US$900 m", figNote: "at Tanzania’s cost per kilometre",
+      stats: [
+        { v: "US$7.6 m", l: "per km, Mombasa–Nairobi (diesel)" },
+        { v: "US$5.7 m", l: "per km, Dar es Salaam–Dodoma, Tanzania (electric)" },
+        { v: "≥ 30%", l: "of the extra cost attributed to governance problems" },
+      ],
+      more: [
+        { h: "The comparison", p: "Kenya’s line cost more per kilometre than Tanzania’s Dar es Salaam–Dodoma line (US$5.7 m) and the Djibouti–Addis Ababa line (US$5.3 m), even though both of those are electrified and Kenya’s runs on diesel." },
+        { h: "What went wrong", p: "The World Bank points to direct contracting instead of competitive tendering, land speculation and outright fraud around land compensation, and attributes at least 30% of the extra cost to these governance problems." },
+        { h: "Why it matters to you", p: "The railway was built with borrowed money. Every extra dollar spent is a dollar Kenyans repay, with interest." },
+      ],
+      caveat: "Projects differ in terrain and design, so not all of the cost gap is due to governance; that is why the World Bank attributes only part of it (at least 30%).",
+      source: "World Bank, Kenya Economic Update No. 34 (Nov 2026), p. 26.",
+    },
+    {
+      where: "spotLosses", tag: "Lake Turkana wind power", label: "Reportedly paid for electricity that was never used",
+      fig: "US$150 m", figNote: "in ‘take-or-pay’ penalties",
+      stats: [
+        { v: "Take-or-pay", l: "the contract pays for power the plant can produce, used or not" },
+        { v: "Delayed line", l: "the transmission line was late, so the power could not be delivered" },
+        { v: "Your bill", l: "costs like these feed into Kenya’s high power prices" },
+      ],
+      more: [
+        { h: "What happened", p: "Delays in building the transmission line meant the wind farm’s power could not reach the grid. Under the contract’s take-or-pay terms, government reportedly paid the equivalent of US$150 million for energy that was never used. There were also allegations that land for the project was acquired irregularly." },
+        { h: "The bigger picture", p: "Only 24% of Kenya’s 42 power purchase agreements were competitively procured. Kenyan businesses pay 17.5 US cents per kWh, more than in Uganda, Morocco, South Africa or Viet Nam." },
+      ],
+      caveat: "These are allegations reported by the World Bank from public sources, not court findings.",
+      source: "World Bank, Kenya Economic Update No. 34 (Nov 2026), p. 28 and note 56.",
+    },
+    {
+      where: "spotLevers", tag: "Procurement transparency", label: "Share of public procurement published with winners and contract amounts",
+      fig: "≈ 15%", figNote: "KSh 186 bn of about KSh 1.2 trillion",
+      stats: [
+        { v: "KSh 1.2 tn", l: "estimated spending through public procurement a year" },
+        { v: "KSh 410 bn", l: "with at least some data published (FY2024/25)" },
+        { v: "KSh 186 bn", l: "with full details: bid winners and contract amounts" },
+      ],
+      more: [
+        { h: "Why it matters", p: "If you cannot see who won a contract and for how much, you cannot check whether the price was fair. Procurement is where the World Bank finds the largest savings: cutting leakage by 10% would save about KSh 120 bn a year." },
+        { h: "What is changing", p: "Kenya moved to electronic government procurement (e-GP) in 2025. Procurement plans worth KSh 347 bn, about 2% of GDP, have now been published." },
+        { h: "What to track", p: "The share of procurement spending published in full on the e-GP portal, every year, until it reaches 100%." },
+      ],
+      caveat: "The KSh 1.2 trillion total is the World Bank’s working assumption, so the 15% share is approximate.",
+      source: "World Bank, Kenya Economic Update No. 34 (Nov 2026), pp. 25–27.",
+    },
+  ],
+
   // ---- what Kenya's watchdogs report ---------------------------------
   watchdogs: [
     {

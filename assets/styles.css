@@ -307,3 +307,9 @@ body.tabbed #home > .homehead{margin-top:18px}
 .tp-more .tp-caveat p{color:var(--ink)}
 .tp-more .tp-act{grid-column:1 / -1;font-weight:600}
 @media (max-width:700px){.tp-more{grid-template-columns:1fr}}
+
+.spot-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--red);background:var(--red-soft);border-radius:999px;padding:2px 8px;margin-right:4px}
+.bigbtn .fn{display:block;margin-top:2px}
+.tp-src{grid-column:1 / -1;font-size:12px;color:var(--muted)}
+.spoth{margin:28px 0 0;font-size:18px}
+#levers + #spotLevers .traffic{margin-top:20px}
