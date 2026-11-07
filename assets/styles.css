@@ -313,3 +313,16 @@ body.tabbed #home > .homehead{margin-top:18px}
 .tp-src{grid-column:1 / -1;font-size:12px;color:var(--muted)}
 .spoth{margin:28px 0 0;font-size:18px}
 #levers + #spotLevers .traffic{margin-top:20px}
+
+/* The cost: fiscal picture in a right-hand column on desktops */
+@media (min-width:1200px){
+  #cost{position:relative;left:50%;transform:translateX(-50%);width:min(1500px, calc(100vw - 32px))}
+  body.tabbed #cost:not(.active){display:none}
+  #cost{display:grid;grid-template-columns:minmax(0,1fr) 260px;column-gap:28px;align-items:start}
+  #cost .costmain{grid-column:1}
+  #cost .fiscside{grid-column:2;position:sticky;top:76px;margin-top:40px}
+  #cost .fiscside h2{margin:0 0 4px;font-size:20px}
+  #cost .fiscside .h2sub{font-size:13.5px;margin-bottom:12px}
+  #cost .fiscside .fisc{grid-template-columns:1fr;gap:10px}
+  #cost .fiscside .mini{background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow)}
+}
