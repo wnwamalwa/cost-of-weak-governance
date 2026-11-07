@@ -1,6 +1,6 @@
 # Cost of Weak Governance dashboard (standalone)
 
-A separate dashboard for the ELGIA/KISP booth at GDSAI 2026 (Strathmore, 19–20 Nov 2026), built by IEA Kenya from the World Bank Kenya Economic Update No. 34 (governance special focus).
+A separate dashboard for the ELGIA/KISP booth at GDSAI 2026 (Strathmore, 19–20 Nov 2026), built by IEA Kenya from the World Bank Kenya Economic Update No. 34 (governance special focus), the Auditor-General, EACC, Judiciary and Transparency International reports.
 
 It is a plain static site: no install, no build step.
 
@@ -22,7 +22,7 @@ ELGIA_APP/
 
 ## Update a figure
 Open `data/data.js`, change the number or text, save, refresh the browser.
-Sections: headline, fiscal, channels, benchmarks, scenarios, calculator, levers.
+Sections: headline, fiscal, channels, watchdogs (OAG, EACC, Judiciary, TI), benchmarks, scenarios, calculator, levers.
 
 ## Put it online (its own link, separate from the debt counter)
 1. Create a new GitHub repo, e.g. `cost-of-weak-governance`, and push this folder.
@@ -34,3 +34,6 @@ Sections: headline, fiscal, channels, benchmarks, scenarios, calculator, levers.
 - `headline.gdpKsh` fallback (KSh 18.9 tn): confirm against the latest KNBS figure.
 - Intermediate scenario jobs (~4.5 m) is an IEA conversion (16% of ~28.4 m workers in 2035), marked with *.
 - Benchmarks: Auditor-General adoption uses 19.5% (midpoint of 18–21%); FDI peers use 1.75% (midpoint of 1.5–2.0%).
+- Watchdogs: EACC FY2024/25 figures come from press coverage of its annual report; check against the full report
+  (eacc.go.ke). The Judiciary card uses the Administration of Justice Report 2025/26 as reported by Capital FM (3 Nov 2026);
+  replace with the report itself once published online.
