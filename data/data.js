@@ -105,6 +105,29 @@ window.CWG_DATA = {
     },
   ],
 
+  // ---- Africa map: the six World Bank governance indicators ----------
+  // Definitions follow the World Bank's Worldwide Governance Indicators.
+  indicators: [
+    { key: "CC", name: "Control of Corruption",
+      what: "How far public power is used for private gain: petty and grand corruption, and the “capture” of the state by elites and private interests.",
+      why: "This is the index behind the World Bank’s reform scenarios: improving it by one standard deviation could make Kenya’s economy 22% larger by 2035." },
+    { key: "GE", name: "Government Effectiveness",
+      what: "The quality of public services and the civil service, its independence from political pressure, and how well policies are made, carried out and kept to.",
+      why: "Weak delivery shows up in low development budget execution, stalled projects and pending bills." },
+    { key: "RL", name: "Rule of Law",
+      what: "How far people trust and follow the rules of society: contract enforcement, property rights, the police and the courts, and the risk of crime and violence.",
+      why: "Slow courts and weak enforcement let corruption go unpunished; see the Judiciary and EACC figures on the Watchdogs tab." },
+    { key: "RQ", name: "Regulatory Quality",
+      what: "Whether government can make and apply sound policies and regulations that allow and promote private sector development.",
+      why: "Frequent tax and levy changes and unpredictable rules hold back investment; FDI has stayed below 0.5% of GDP since 2018." },
+    { key: "VA", name: "Voice and Accountability", short: "Voice & Accountability",
+      what: "How far citizens can take part in choosing their government, and enjoy freedom of expression, freedom of association and a free media.",
+      why: "Citizens, media and Parliament are the first line of oversight on how public money is spent." },
+    { key: "PV", name: "Political Stability and Absence of Violence", short: "Political Stability",
+      what: "The likelihood of political instability or politically motivated violence, including terrorism.",
+      why: "Instability raises the risk premium on borrowing and deters investment. Kenya’s score fell sharply in 2024, the year of the Finance Bill protests." },
+  ],
+
   // ---- what Kenya's watchdogs report ---------------------------------
   watchdogs: [
     {

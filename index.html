@@ -22,22 +22,33 @@
 <main class="wrap">
 <section class="pane" id="home" data-tab="Home">
   <h2>How Kenya compares with the rest of Africa</h2>
-  <p class="h2sub" style="max-width:860px">Control of Corruption, from the World Bank’s Worldwide Governance Indicators: the index the Kenya Economic Update uses for its reform scenarios. Scores run from about −2.5 (worst) to +2.5 (best). Hover or tap a country.</p>
+  <p class="h2sub" style="max-width:860px">The World Bank’s Worldwide Governance Indicators score every country from about −2.5 (worst) to +2.5 (best). Choose an indicator and a year; hover or tap a country to see its score.</p>
+
+  <div class="seg indsel" id="afInd" role="group" aria-label="Choose an indicator"></div>
+
+  <div class="card afexplain">
+    <div><div class="lab">What it measures</div><p id="afWhat"></p></div>
+    <div><div class="lab">Why it matters for Kenya</div><p id="afWhy"></p></div>
+  </div>
+
   <div class="card afwrap">
-    <div class="afmap" id="afmap"></div>
-    <div class="afside">
-      <div class="seg" id="afYear" role="group" aria-label="Year" style="grid-template-columns:1fr 1fr">
-        <button type="button" data-y="e24" aria-pressed="false">2024 (in the report)</button>
-        <button type="button" data-y="e25" aria-pressed="true">2025 (latest)</button>
+    <div>
+      <div class="afhead"><h3 id="afTitle"></h3>
+        <label class="yr">Year <b id="afYearV"></b><input type="range" id="afYearRange" step="1" aria-label="Year"></label>
       </div>
-      <div class="sub" style="margin-top:16px">Kenya’s score</div>
+      <div class="afmap" id="afmap"></div>
+      <div class="aflegend" id="aflegend"></div>
+    </div>
+    <div class="afside">
+      <div class="sub" style="margin-top:0">Kenya’s score</div>
       <div class="big" id="afScore" style="font-size:44px">–</div>
       <p id="afRank" style="margin:8px 0 2px"></p>
       <div class="sub" id="afChange" style="margin-top:0"></div>
-      <div class="sub" style="margin:16px 0 6px">Kenya and its neighbours (−2.5 to +2.5)</div>
+      <div class="sub" style="margin:16px 0 6px">Kenya and its neighbours</div>
       <div id="afPeers"></div>
-      <div class="aflegend" id="aflegend"></div>
-      <div class="src" style="font-size:12px;color:var(--muted);margin-top:10px">Source: World Bank, Worldwide Governance Indicators 2024 and 2025 (Control of Corruption estimate). Map: Natural Earth.</div>
+      <div class="sub" style="margin:16px 0 4px">Kenya <span class="kkey"></span> and the Africa median <span class="mkey"></span>, 2015–2025</div>
+      <div id="afTrend" class="aftrend"></div>
+      <div class="src" style="font-size:12px;color:var(--muted);margin-top:10px">Source: World Bank, Worldwide Governance Indicators, 2025 update (September 2026). The Kenya Economic Update uses Control of Corruption. Map: Natural Earth.</div>
     </div>
   </div>
 </section>
