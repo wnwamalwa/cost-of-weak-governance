@@ -141,3 +141,9 @@ header.top .bar{max-width:1400px;margin:0 auto;padding:0 16px;display:flex;align
 .afmap .ke-line{stroke:var(--ink);stroke-width:1.2}
 .afmap .ke-outline{stroke-width:2.6}
 #home > h2:first-child{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.02em}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.about h3,#about .card h3{margin:0 0 10px;font-size:18px}
+.about ul,.about ol{margin:0;padding-left:20px;font-size:15px}
+.about li{margin:8px 0}
+footer{margin-top:40px;padding:20px 0 32px}
+@media (max-width:900px){.about{grid-template-columns:1fr}}
